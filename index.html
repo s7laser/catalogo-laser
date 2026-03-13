@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo Laser</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+margin:15px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:15px;
+}
+
+.card{
+background:white;
+padding:12px;
+border-radius:8px;
+box-shadow:0 2px 4px rgba(0,0,0,.2);
+}
+
+img{
+width:100%;
+height:140px;
+object-fit:contain;
+background:#fafafa;
+}
+
+input{
+width:100%;
+margin:4px 0;
+padding:6px;
+}
+
+button{
+margin-top:5px;
+padding:7px;
+width:100%;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.5);
+align-items:center;
+justify-content:center;
+}
+
+.modal-box{
+background:white;
+padding:20px;
+border-radius:8px;
+width:300px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Catálogo Laser</h2>
+
+<input id="busca" placeholder="Buscar produto ou código..." onkeyup="render()">
+
+<div class="grid" id="grid"></div>
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h3 id="tituloProduto"></h3>
+
+<label>Velocidade</label>
+<input id="vel">
+
+<label>Potência</label>
+<input id="pot">
+
+<label>Intervalo (mm)</label>
+<input id="intervalo">
+
+<label>Passagens</label>
+<input id="passagens">
+
+<label>Observações</label>
+<input id="obs">
+
+<button onclick="salvarParametros()">Salvar</button>
+<button onclick="fecharModal()">Fechar</button>
+
+</div>
+
+</div>
+
+<script>
+
+let produtos = JSON.parse(localStorage.getItem("produtos")) || []
+
+let produtoAtual = null
+
+function salvar(){
+localStorage.setItem("produtos",JSON.stringify(produtos))
+}
+
+function abrirParametros(i){
+
+produtoAtual = i
+
+let p = produtos[i]
+
+document.getElementById("tituloProduto").innerText =
+p.codigo + " - " + p.nome
+
+document.getElementById("vel").value = p.vel || ""
+document.getElementById("pot").value = p.pot || ""
+document.getElementById("intervalo").value = p.intervalo || ""
+document.getElementById("passagens").value = p.passagens || ""
+document.getElementById("obs").value = p.obs || ""
+
+document.getElementById("modal").style.display = "flex"
+
+}
+
+function salvarParametros(){
+
+let p = produtos[produtoAtual]
+
+p.vel = document.getElementById("vel").value
+p.pot = document.getElementById("pot").value
+p.intervalo = document.getElementById("intervalo").value
+p.passagens = document.getElementById("passagens").value
+p.obs = document.getElementById("obs").value
+
+salvar()
+
+fecharModal()
+
+}
+
+function fecharModal(){
+
+document.getElementById("modal").style.display = "none"
+
+}
+
+function render(){
+
+let grid = document.getElementById("grid")
+let filtro = document.getElementById("busca").value.toLowerCase()
+
+grid.innerHTML = ""
+
+produtos.forEach((p,i)=>{
+
+if(p.nome.toLowerCase().includes(filtro) ||
+p.codigo.toLowerCase().includes(filtro)){
+
+let card = document.createElement("div")
+card.className = "card"
+
+card.innerHTML = `
+
+<img src="${p.foto}">
+
+<b>${p.codigo} - ${p.nome}</b>
+
+<button onclick="abrirParametros(${i})">
+Parâmetros Laser
+</button>
+
+`
+
+grid.appendChild(card)
+
+}
+
+})
+
+}
+
+render()
+
+</script>
+
+</body>
+</html>
