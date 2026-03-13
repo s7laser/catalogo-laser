@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo Laser</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+margin:10px;
+}
+
+h2{
+text-align:center;
+}
+
+.topbar{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:10px;
+}
+
+input{
+padding:6px;
+}
+
+button{
+padding:7px;
+border:none;
+background:#007bff;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+gap:10px;
+}
+
+.card{
+background:white;
+padding:8px;
+border-radius:8px;
+box-shadow:0 2px 4px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:120px;
+object-fit:contain;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+align-items:center;
+justify-content:center;
+}
+
+.modal-box{
+background:white;
+padding:20px;
+border-radius:10px;
+width:320px;
+max-height:90vh;
+overflow:auto;
+}
+
+.modal-box input{
+width:100%;
+margin-bottom:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Catálogo Laser</h2>
+
+<div class="topbar">
+
+<input id="busca" placeholder="Buscar produto..." onkeyup="buscar()">
+
+<button onclick="novoProduto()">Novo Produto</button>
+
+<button onclick="exportar()">Exportar</button>
+
+<input type="file" onchange="importar(this)">
+
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h3 id="tituloProduto"></h3>
+
+<label>Custo</label>
+<input id="custo">
+
+<label>Preço 1</label>
+<input id="p1">
+
+<label>Preço 5</label>
+<input id="p5">
+
+<label>Preço 10</label>
+<input id="p10">
+
+<label>Preço 25</label>
+<input id="p25">
+
+<label>Preço 50</label>
+<input id="p50">
+
+<hr>
+
+<label>Velocidade</label>
+<input id="vel">
+
+<label>Potência</label>
+<input id="pot">
+
+<label>Intervalo</label>
+<input id="intervalo">
+
+<label>Passagens</label>
+<input id="passagens">
+
+<label>Observações</label>
+<input id="obs">
+
+<button onclick="salvarParametros()">Salvar</button>
+<button onclick="fecharModal()">Fechar</button>
+
+</div>
+
+</div>
+
+<script>
+
+let produtos = JSON.parse(localStorage.getItem("produtos")) || []
+
+let produtoAtual=null
+
+function salvar(){
+localStorage.setItem("produtos",JSON.stringify(produtos))
+}
+
+function moeda(valor){
+return "R$ " + Number(valor || 0).toFixed(2)
+}
+
+function render(lista=produtos){
+
+let grid=document.getElementById("grid")
+grid.innerHTML=""
+
+lista.forEach((p,i)=>{
+
+let card=document.createElement("div")
+card.className="card"
+
+card.innerHTML=`
+
+<img src="${p.foto || ''}">
+
+<b>${p.codigo || ''}</b><br>
+${p.nome || ''}
+
+<div style="font-size:12px">
+
+Custo: ${moeda(p.custo)}<br>
+
+1: ${moeda(p.p1)} | 5: ${moeda(p.p5)}<br>
+10: ${moeda(p.p10)} | 25: ${moeda(p.p25)}
+
+</div>
+
+<button onclick="abrirParametros(${i})">
+Editar
+</button>
+
+<button onclick="excluirProduto(${i})" style="background:#c0392b">
+Excluir
+</button>
+
+`
+
+grid.appendChild(card)
+
+})
+
+}
+
+function buscar(){
+
+let termo=document.getElementById("busca").value.toLowerCase()
+
+if(!termo){
+render()
+return
+}
+
+let filtrado=produtos.filter(p =>
+(p.nome||"").toLowerCase().includes(termo) ||
+(p.codigo||"").toLowerCase().includes(termo)
+)
+
+render(filtrado)
+
+}
+
+function abrirParametros(i){
+
+produtoAtual=i
+let p=produtos[i]
+
+document.getElementById("tituloProduto").innerText=p.codigo+" - "+p.nome
+
+document.getElementById("custo").value=p.custo||""
+
+document.getElementById("p1").value=p.p1||""
+document.getElementById("p5").value=p.p5||""
+document.getElementById("p10").value=p.p10||""
+document.getElementById("p25").value=p.p25||""
+document.getElementById("p50").value=p.p50||""
+
+document.getElementById("vel").value=p.vel||""
+document.getElementById("pot").value=p.pot||""
+document.getElementById("intervalo").value=p.intervalo||""
+document.getElementById("passagens").value=p.passagens||""
+document.getElementById("obs").value=p.obs||""
+
+document.getElementById("modal").style.display="flex"
+
+}
+
+function salvarParametros(){
+
+let p=produtos[produtoAtual]
+
+p.custo=document.getElementById("custo").value
+
+p.p1=document.getElementById("p1").value
+p.p5=document.getElementById("p5").value
+p.p10=document.getElementById("p10").value
+p.p25=document.getElementById("p25").value
+p.p50=document.getElementById("p50").value
+
+p.vel=document.getElementById("vel").value
+p.pot=document.getElementById("pot").value
+p.intervalo=document.getElementById("intervalo").value
+p.passagens=document.getElementById("passagens").value
+p.obs=document.getElementById("obs").value
+
+salvar()
+fecharModal()
+
+}
+
+function fecharModal(){
+document.getElementById("modal").style.display="none"
+}
+
+function excluirProduto(i){
+
+if(!confirm("Excluir este produto?")) return
+
+produtos.splice(i,1)
+
+salvar()
+render()
+
+}
+
+function novoProduto(){
+
+let codigo = prompt("Código do produto")
+if(!codigo) return
+
+let nome = prompt("Nome do produto")
+if(!nome) return
+
+let input = document.createElement("input")
+input.type = "file"
+input.accept = "image/*"
+
+input.addEventListener("change", function(e){
+
+let file = e.target.files[0]
+if(!file) return
+
+let reader = new FileReader()
+
+reader.onload = function(r){
+
+produtos.push({
+codigo: codigo,
+nome: nome,
+foto: r.target.result,
+custo:0,
+p1:0,
+p5:0,
+p10:0,
+p25:0,
+p50:0
+})
+
+salvar()
+render()
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
+document.body.appendChild(input)
+input.click()
+
+}
+
+function exportar(){
+
+let blob=new Blob([JSON.stringify(produtos)],{type:"application/json"})
+let url=URL.createObjectURL(blob)
+
+let a=document.createElement("a")
+a.href=url
+a.download="catalogo_laser_backup.json"
+a.click()
+
+}
+
+function importar(input){
+
+let file=input.files[0]
+let reader=new FileReader()
+
+reader.onload=e=>{
+
+produtos=JSON.parse(e.target.result)
+
+salvar()
+render()
+
+}
+
+reader.readAsText(file)
+
+}
+
+render()
+
+</script>
+
+</body>
+</html>
