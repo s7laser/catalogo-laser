@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Catálogo de Brindes</title>
+
+<style>
+body{font-family:Arial;background:#f2f2f2;margin:20px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.card{background:white;padding:15px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.2);}
+.card img{width:100%;height:160px;object-fit:contain;margin-bottom:10px;background:#fafafa;}
+input{width:100%;margin-bottom:5px;padding:4px;}
+button{margin-top:6px;padding:6px;width:100%;cursor:pointer;}
+.delete{background:#d9534f;color:white;}
+.calc{background:#5cb85c;color:white;}
+.param{background:#0275d8;color:white;}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+align-items:center;
+justify-content:center;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:8px;
+width:300px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Catálogo de Brindes</h1>
+
+<input id="busca" placeholder="Buscar produto..." onkeyup="render()">
+<button onclick="novoProduto()">Adicionar Produto</button>
+
+<div class="grid" id="grid"></div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+
+<h3>Parâmetros de gravação</h3>
+
+Velocidade
+<input id="vel">
+
+Potência
+<input id="pot">
+
+Intervalo (mm)
+<input id="intervalo">
+
+Passagens
+<input id="passagens">
+
+Observações
+<input id="obs">
+
+<button onclick="salvarParametros()">Salvar parâmetros</button>
+<button onclick="fecharModal()">Fechar</button>
+
+</div>
+</div>
+
+<script>
+
+const mult={p1:3,p5:2.6,p10:2.3,p25:2,p50:1.8};
+
+let produtos = JSON.parse(localStorage.getItem("produtos")) || [{"codigo": "01020", "nome": "Caneta metal detalhe emborrachado", "foto": "01020.jpg", "custo": 2.95, "p1": 8.85, "p5": 7.67, "p10": 6.79, "p25": 5.9, "p50": 5.31, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "13230", "nome": "Caneta plástica touch", "foto": "13230.jpg", "custo": 0.95, "p1": 2.85, "p5": 2.47, "p10": 2.18, "p25": 1.9, "p50": 1.71, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "09084", "nome": "Caneta marcadora", "foto": "09084.jpg", "custo": 1.2, "p1": 3.6, "p5": 3.12, "p10": 2.76, "p25": 2.4, "p50": 2.16, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "09266A", "nome": "Caneta metal touch", "foto": "09266a.jpg", "custo": 2.65, "p1": 7.95, "p5": 6.89, "p10": 6.09, "p25": 5.3, "p50": 4.77, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "08187", "nome": "Caneta metal", "foto": "08187.jpg", "custo": 2.0, "p1": 6.0, "p5": 5.2, "p10": 4.6, "p25": 4.0, "p50": 3.6, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "05015B", "nome": "Caneta metal touch", "foto": "05015b.jpg", "custo": 2.1, "p1": 6.3, "p5": 5.46, "p10": 4.83, "p25": 4.2, "p50": 3.78, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "12172", "nome": "Caneta bambu", "foto": "12172.jpg", "custo": 1.32, "p1": 3.96, "p5": 3.43, "p10": 3.04, "p25": 2.64, "p50": 2.38, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "08102", "nome": "Caneta ecológica touch", "foto": "08102.jpg", "custo": 1.6, "p1": 4.8, "p5": 4.16, "p10": 3.68, "p25": 3.2, "p50": 2.88, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "09824", "nome": "Chaveiro abridor metal", "foto": "09824.jpg", "custo": 0.9, "p1": 2.7, "p5": 2.34, "p10": 2.07, "p25": 1.8, "p50": 1.62, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "06003", "nome": "Chaveiro abridor madeira", "foto": "06003.jpg", "custo": 4.8, "p1": 14.4, "p5": 12.48, "p10": 11.04, "p25": 9.6, "p50": 8.64, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "06038", "nome": "Chaveiro madeira", "foto": "06038.jpg", "custo": 1.9, "p1": 5.7, "p5": 4.94, "p10": 4.37, "p25": 3.8, "p50": 3.42, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "18902", "nome": "Chaveiro madeira", "foto": "18902.jpg", "custo": 1.7, "p1": 5.1, "p5": 4.42, "p10": 3.91, "p25": 3.4, "p50": 3.06, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "12069", "nome": "Espelho plástico quadrado", "foto": "12069.jpg", "custo": 2.5, "p1": 7.5, "p5": 6.5, "p10": 5.75, "p25": 5.0, "p50": 4.5, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "10250", "nome": "Espelho plástico retangular", "foto": "10250.jpg", "custo": 1.9, "p1": 5.7, "p5": 4.94, "p10": 4.37, "p25": 3.8, "p50": 3.42, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "18607", "nome": "Espelho duplo", "foto": "18607.jpg", "custo": 2.7, "p1": 8.1, "p5": 7.02, "p10": 6.21, "p25": 5.4, "p50": 4.86, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "05134", "nome": "Bloco de anotações ecológico", "foto": "05134.jpg", "custo": 11.5, "p1": 34.5, "p5": 29.9, "p10": 26.45, "p25": 23.0, "p50": 20.7, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "04080", "nome": "Copo térmico inox 473ml", "foto": "04080.jpg", "custo": 20.9, "p1": 62.7, "p5": 54.34, "p10": 48.07, "p25": 41.8, "p50": 37.62, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}, {"codigo": "18645L", "nome": "Copo térmico 500ml", "foto": "18645l.jpg", "custo": 18.8, "p1": 56.4, "p5": 48.88, "p10": 43.24, "p25": 37.6, "p50": 33.84, "vel": "", "pot": "", "intervalo": "", "passagens": "", "obs": ""}];
+
+let produtoAtual=null;
+
+function salvar(){
+localStorage.setItem("produtos",JSON.stringify(produtos));
+}
+
+function recalcular(i){
+let c=parseFloat(produtos[i].custo)||0;
+produtos[i].p1=(c*mult.p1).toFixed(2);
+produtos[i].p5=(c*mult.p5).toFixed(2);
+produtos[i].p10=(c*mult.p10).toFixed(2);
+produtos[i].p25=(c*mult.p25).toFixed(2);
+produtos[i].p50=(c*mult.p50).toFixed(2);
+render();
+salvar();
+}
+
+function excluir(i){
+if(confirm("Excluir produto?")){
+produtos.splice(i,1);
+salvar();
+render();
+}
+}
+
+function abrirParametros(i){
+produtoAtual=i;
+document.getElementById("vel").value=produtos[i].vel||"";
+document.getElementById("pot").value=produtos[i].pot||"";
+document.getElementById("intervalo").value=produtos[i].intervalo||"";
+document.getElementById("passagens").value=produtos[i].passagens||"";
+document.getElementById("obs").value=produtos[i].obs||"";
+document.getElementById("modal").style.display="flex";
+}
+
+function salvarParametros(){
+produtos[produtoAtual].vel=document.getElementById("vel").value;
+produtos[produtoAtual].pot=document.getElementById("pot").value;
+produtos[produtoAtual].intervalo=document.getElementById("intervalo").value;
+produtos[produtoAtual].passagens=document.getElementById("passagens").value;
+produtos[produtoAtual].obs=document.getElementById("obs").value;
+salvar();
+fecharModal();
+}
+
+function fecharModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function render(){
+
+let grid=document.getElementById("grid");
+let filtro=document.getElementById("busca").value.toLowerCase();
+grid.innerHTML="";
+
+produtos.forEach((p,i)=>{
+
+if(p.nome.toLowerCase().includes(filtro)||p.codigo.toLowerCase().includes(filtro)){
+
+let card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+
+<img src="${p.foto}">
+
+Código
+<input value="${p.codigo}" onchange="produtos[${i}].codigo=this.value">
+
+Produto
+<input value="${p.nome}" onchange="produtos[${i}].nome=this.value">
+
+Custo
+<input type="number" step="0.01" value="${p.custo}" onchange="produtos[${i}].custo=parseFloat(this.value)">
+
+Preço 1
+<input type="number" step="0.01" value="${p.p1}" onchange="produtos[${i}].p1=parseFloat(this.value)">
+
+Preço 5
+<input type="number" step="0.01" value="${p.p5}" onchange="produtos[${i}].p5=parseFloat(this.value)">
+
+Preço 10
+<input type="number" step="0.01" value="${p.p10}" onchange="produtos[${i}].p10=parseFloat(this.value)">
+
+Preço 25
+<input type="number" step="0.01" value="${p.p25}" onchange="produtos[${i}].p25=parseFloat(this.value)">
+
+Preço 50
+<input type="number" step="0.01" value="${p.p50}" onchange="produtos[${i}].p50=parseFloat(this.value)">
+
+<button class="calc" onclick="recalcular(${i})">Recalcular preços</button>
+<button class="param" onclick="abrirParametros(${i})">Parâmetros laser</button>
+<button onclick="salvar()">Salvar</button>
+<button class="delete" onclick="excluir(${i})">Excluir produto</button>
+
+`;
+
+grid.appendChild(card);
+
+}
+});
+}
+
+function novoProduto(){
+produtos.push({
+codigo:"novo",
+nome:"novo produto",
+foto:"",
+custo:0,
+p1:0,p5:0,p10:0,p25:0,p50:0,
+vel:"",pot:"",intervalo:"",passagens:"",obs:""
+});
+render();
+salvar();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
