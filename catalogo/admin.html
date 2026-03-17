@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin - Catálogo</title>
+<title>Admin Catálogo</title>
 
 <style>
 body{
@@ -12,9 +12,7 @@ background:#f2f2f2;
 padding:10px;
 }
 
-h2{
-text-align:center;
-}
+h2{text-align:center;}
 
 .box{
 background:white;
@@ -24,10 +22,9 @@ margin-bottom:10px;
 box-shadow:0 2px 4px rgba(0,0,0,0.2);
 }
 
-input, textarea{
+input{
 width:100%;
-margin-top:5px;
-margin-bottom:10px;
+margin-bottom:8px;
 padding:6px;
 }
 
@@ -38,14 +35,34 @@ background:#007bff;
 color:white;
 border-radius:6px;
 cursor:pointer;
-width:100%;
 margin-top:5px;
+width:100%;
 }
 
-.produto{
-font-size:13px;
+.lista-item{
+display:flex;
+gap:10px;
+align-items:center;
 border-bottom:1px solid #ddd;
 padding:5px 0;
+}
+
+.lista-item img{
+width:50px;
+height:50px;
+object-fit:contain;
+}
+
+.acoes button{
+width:auto;
+margin-right:5px;
+padding:5px;
+font-size:12px;
+}
+
+textarea{
+width:100%;
+margin-top:10px;
 }
 
 </style>
@@ -53,34 +70,23 @@ padding:5px 0;
 
 <body>
 
-<h2>Admin - Catálogo</h2>
+<h2>Admin Catálogo</h2>
 
 <div class="box">
 
-<label>Código</label>
-<input id="codigo">
+<input id="codigo" placeholder="Código">
+<input id="nome" placeholder="Nome">
+<input id="foto" placeholder="Foto (ex: 01020.jpg)">
+<input id="min" type="number" placeholder="Quantidade mínima">
+<input id="cores" placeholder="Cores (Preto,Azul)">
+<input id="precos" placeholder="Preços (20=8,50=6)">
 
-<label>Nome</label>
-<input id="nome">
-
-<label>Foto (nome do arquivo)</label>
-<input id="foto" placeholder="ex: 01020.jpg">
-
-<label>Quantidade mínima</label>
-<input id="min" type="number">
-
-<label>Cores (separadas por vírgula)</label>
-<input id="cores" placeholder="Preto,Azul,Vermelho">
-
-<label>Preços (ex: 20=8,50=6,100=5)</label>
-<input id="precos" placeholder="20=8,50=6">
-
-<button onclick="adicionar()">Adicionar Produto</button>
+<button onclick="salvarProduto()">Salvar Produto</button>
 
 </div>
 
 <div class="box">
-<h3>Produtos adicionados</h3>
+<h3>Produtos cadastrados</h3>
 <div id="lista"></div>
 </div>
 
@@ -93,37 +99,16 @@ padding:5px 0;
 <script>
 
 let produtos = []
+let editandoIndex = null
 
-function adicionar(){
+function carregarJSON(){
 
-let codigo = document.getElementById("codigo").value
-let nome = document.getElementById("nome").value
-let foto = document.getElementById("foto").value
-let min = parseInt(document.getElementById("min").value)
-
-let coresInput = document.getElementById("cores").value
-let cores = coresInput ? coresInput.split(",").map(c=>c.trim()) : []
-
-let precosInput = document.getElementById("precos").value
-let precos = {}
-
-precosInput.split(",").forEach(p=>{
-let [q,v] = p.split("=")
-precos[q.trim()] = parseFloat(v)
-})
-
-produtos.push({
-codigo,
-nome,
-foto,
-quantidade_minima:min,
-cores,
-precos
-})
-
+fetch("produtos.json")
+.then(res=>res.json())
+.then(data=>{
+produtos = data
 renderLista()
-
-limparCampos()
+})
 
 }
 
@@ -133,22 +118,109 @@ let lista = document.getElementById("lista")
 lista.innerHTML = ""
 
 produtos.forEach((p,i)=>{
+
 lista.innerHTML += `
-<div class="produto">
-<b>${p.codigo}</b> - ${p.nome}
+<div class="lista-item">
+
+<img src="../${p.foto}">
+
+<div style="flex:1">
+<b>${p.codigo}</b><br>
+${p.nome}
+</div>
+
+<div class="acoes">
+<button onclick="editar(${i})">Editar</button>
+<button onclick="remover(${i})" style="background:red;">Excluir</button>
+</div>
+
 </div>
 `
 })
 
 }
 
+function editar(i){
+
+let p = produtos[i]
+
+document.getElementById("codigo").value = p.codigo
+document.getElementById("nome").value = p.nome
+document.getElementById("foto").value = p.foto
+document.getElementById("min").value = p.quantidade_minima
+document.getElementById("cores").value = p.cores.join(",")
+
+let precosTexto = ""
+for(let k in p.precos){
+precosTexto += `${k}=${p.precos[k]},`
+}
+
+document.getElementById("precos").value = precosTexto.slice(0,-1)
+
+editandoIndex = i
+
+}
+
+function remover(i){
+produtos.splice(i,1)
+renderLista()
+}
+
+function salvarProduto(){
+
+let codigo = document.getElementById("codigo").value
+let nome = document.getElementById("nome").value
+let foto = document.getElementById("foto").value
+let min = parseInt(document.getElementById("min").value)
+
+let cores = document.getElementById("cores").value
+.split(",").map(c=>c.trim()).filter(c=>c)
+
+let precosInput = document.getElementById("precos").value.split(",")
+let precos = {}
+
+precosInput.forEach(p=>{
+let [q,v] = p.split("=")
+precos[q.trim()] = parseFloat(v)
+})
+
+let novo = {
+codigo,
+nome,
+foto,
+quantidade_minima:min,
+cores,
+precos
+}
+
+if(editandoIndex !== null){
+produtos[editandoIndex] = novo
+editandoIndex = null
+}else{
+produtos.push(novo)
+}
+
+limparCampos()
+renderLista()
+
+}
+
+function limparCampos(){
+document.getElementById("codigo").value=""
+document.getElementById("nome").value=""
+document.getElementById("foto").value=""
+document.getElementById("min").value=""
+document.getElementById("cores").value=""
+document.getElementById("precos").value=""
+}
+
 function gerarJSON(){
-document.getElementById("saida").value = JSON.stringify(produtos, null, 2)
+document.getElementById("saida").value = JSON.stringify(produtos,null,2)
 }
 
 function baixarJSON(){
 
-let blob = new Blob([JSON.stringify(produtos, null, 2)], {type:"application/json"})
+let blob = new Blob([JSON.stringify(produtos,null,2)],{type:"application/json"})
 let url = URL.createObjectURL(blob)
 
 let a = document.createElement("a")
@@ -158,14 +230,7 @@ a.click()
 
 }
 
-function limparCampos(){
-document.getElementById("codigo").value = ""
-document.getElementById("nome").value = ""
-document.getElementById("foto").value = ""
-document.getElementById("min").value = ""
-document.getElementById("cores").value = ""
-document.getElementById("precos").value = ""
-}
+carregarJSON()
 
 </script>
 
