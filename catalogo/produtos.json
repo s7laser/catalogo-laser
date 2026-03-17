@@ -1,32 +1,26 @@
 [
   {
-  "codigo": "01020",
-  "nome": "Caneta metal detalhe emborrachado",
-  "foto": "01020.jpg",
-  "quantidade_minima": 20,
-
+    "codigo": "01020",
+    "nome": "Caneta metal detalhe emborrachado",
+    "foto": "01020.jpg",
+    "quantidade_minima": 20,
     "cores": ["Preto","Verde","Azul"],
-    
-  "precos": {"20":8,"50":6,"100":5}
+    "precos": {"20":8,"50":6,"100":5}
   },
   {
     "codigo": "13230",
     "nome": "Caneta plástica touch",
     "foto": "13230.jpg",
     "quantidade_minima": 20,
-
     "cores": ["Preto","Azul","Vinho"],
-    
     "precos": {"10":7,"25":6,"50":5}
   },
-    {
+  {
     "codigo": "09266A",
     "nome": "Caneta metal touch",
     "foto": "09266a.jpg",
     "quantidade_minima": 20,
-
-      "cores": ["Preto","Azul"],
-
+    "cores": ["Preto","Azul"],
     "precos": {"20":8,"50":6,"100":5}
   },
   {
@@ -34,9 +28,7 @@
     "nome": "Caneta metal",
     "foto": "08187.jpg",
     "quantidade_minima": 20,
-
     "cores": ["Preto"],
-    
     "precos": {"20":8,"50":6,"100":5}
   },
   {
@@ -44,9 +36,7 @@
     "nome": "Caneta metal touch",
     "foto": "05015b.jpg",
     "quantidade_minima": 20,
-
     "cores": ["Preta","Azul"],
-    
     "precos": {"20":8,"50":6,"100":5}
   },
   {
@@ -54,9 +44,7 @@
     "nome": "Caneta bambu",
     "foto": "12172.jpg",
     "quantidade_minima": 50,
-
     "cores": ["Preta","Azul","Verde","Vermelha","Laranja","Prata"],
-    
     "precos": {"50":6}
   },
   {
@@ -64,9 +52,7 @@
     "nome": "Caneta ecológica touch",
     "foto": "08102.jpg",
     "quantidade_minima": 50,
-
     "cores": ["Rosa","Prata","Azul","Verde"],
-    
     "precos": {"50":6}
   },
   {
@@ -74,9 +60,7 @@
     "nome": "Chaveiro abridor metal",
     "foto": "09824.jpg",
     "quantidade_minima": 10,
-
     "cores": ["Preto","Azul","Roxo","Vermelho"],
-    
     "precos": {"1":18,"5":16,"10":14,"25":12,"50":10}
   },
   {
@@ -84,9 +68,7 @@
     "nome": "Chaveiro abridor madeira",
     "foto": "06003.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":17,"5":15,"10":13,"25":11,"50":10}
   },
   {
@@ -94,9 +76,7 @@
     "nome": "Chaveiro madeira",
     "foto": "06038.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":16,"5":14,"10":12,"25":10,"50":9}
   },
   {
@@ -104,9 +84,7 @@
     "nome": "Chaveiro madeira",
     "foto": "18902.jpg",
     "quantidade_minima": 20,
-
     "cores": [],
-    
     "precos": {"1":16,"5":14,"10":12,"25":10,"50":9}
   },
   {
@@ -114,9 +92,7 @@
     "nome": "Espelho plástico quadrado",
     "foto": "12069.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":14,"5":12,"10":10,"25":9,"50":8}
   },
   {
@@ -124,9 +100,7 @@
     "nome": "Espelho plástico retangular",
     "foto": "10250.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":14,"5":12,"10":10,"25":9,"50":8}
   },
   {
@@ -134,9 +108,7 @@
     "nome": "Espelho duplo",
     "foto": "18607.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":18,"5":16,"10":14,"25":12,"50":11}
   },
   {
@@ -144,9 +116,7 @@
     "nome": "Bloco ecológico",
     "foto": "05134.jpg",
     "quantidade_minima": 10,
-
     "cores": [],
-    
     "precos": {"1":20,"5":18,"10":16,"25":14,"50":12}
   },
   {
@@ -154,9 +124,7 @@
     "nome": "Copo térmico inox",
     "foto": "04080.jpg",
     "quantidade_minima": 1,
-
     "cores": ["Preto","Azul"],
-    
     "precos": {"1":35,"5":30,"10":28,"25":25,"50":22}
   },
   {
@@ -164,9 +132,7 @@
     "nome": "Copo térmico 500ml",
     "foto": "18645l.jpg",
     "quantidade_minima": 1,
-    
     "cores": ["Preto","Azul"],
-    
     "precos": {"1":38,"5":33,"10":30,"25":27,"50":24}
   }
 ]
