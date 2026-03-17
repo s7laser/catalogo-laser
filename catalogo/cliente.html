@@ -49,15 +49,34 @@ text-align:left;
 
 .qtd-box{
 display:flex;
+align-items:center;
+justify-content:space-between;
 gap:5px;
 margin-top:8px;
-align-items:center;
+}
+
+.qtd-label{
+font-size:13px;
+white-space:nowrap;
 }
 
 .qtd-box input{
-flex:1;
-padding:5px;
+width:55px;
+height:32px;
 text-align:center;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.btn-inserir{
+flex:1;
+height:32px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
 }
 
 .btn{
@@ -211,8 +230,11 @@ ${precosHTML}
 </div>
 
 <div class="qtd-box">
+<span class="qtd-label">Quant.:</span>
 <input type="number" id="qtd_${index}" value="${p.quantidade_minima}" min="${p.quantidade_minima}">
-<button class="btn" onclick="adicionar('${p.nome}', ${index})">Add</button>
+<button class="btn-inserir" onclick="adicionar('${p.nome}', ${index})">
+Inserir
+</button>
 </div>
 `
 
