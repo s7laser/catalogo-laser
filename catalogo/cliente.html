@@ -63,6 +63,35 @@ background:green;
 margin-bottom:10px;
 }
 
+  .topo-botoes{
+display:flex;
+gap:8px;
+justify-content:center;
+margin-bottom:10px;
+}
+
+.btn-azul{
+flex:1;
+max-width:180px;
+padding:8px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.btn-verde{
+flex:1;
+max-width:180px;
+padding:8px;
+background:green;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+  
 </style>
 </head>
 
@@ -73,10 +102,9 @@ margin-bottom:10px;
 <strong>Catálogo de Produtos</strong>
 </div>
 
-<div style="text-align:center;">
-<button class="btn btn-wpp" onclick="enviarPedido()">
-Enviar pedido pelo WhatsApp
-</button>
+<div class="topo-botoes">
+<button class="btn-azul" onclick="verCarrinho()">Ver carrinho</button>
+<button class="btn-verde" onclick="enviarPedido()">Enviar pedido</button>
 </div>
 
 <div class="grid" id="grid"></div>
@@ -168,6 +196,23 @@ window.open(link)
 
 }
 
+  function verCarrinho(){
+
+if(carrinho.length === 0){
+alert("Seu carrinho está vazio")
+return
+}
+
+let msg = "Itens no carrinho:%0A%0A"
+
+carrinho.forEach(p => {
+msg += `${p.nome} - ${p.quantidade} un.%0A`
+})
+
+alert(decodeURIComponent(msg.replaceAll('%0A','\n')))
+
+}
+  
 </script>
 
 </body>
