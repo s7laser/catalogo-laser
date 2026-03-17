@@ -13,6 +13,11 @@ background:#f2f2f2;
 margin:10px;
 }
 
+.topo{
+text-align:center;
+margin-bottom:10px;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
@@ -42,13 +47,19 @@ margin-top:6px;
 text-align:left;
 }
 
-.topo{
+.qtd-box{
+display:flex;
+gap:5px;
+margin-top:5px;
+}
+
+.qtd-box input{
+flex:1;
+padding:5px;
 text-align:center;
-margin-bottom:10px;
 }
 
 .btn{
-margin-top:6px;
 padding:6px;
 border:none;
 background:#007bff;
@@ -58,12 +69,7 @@ cursor:pointer;
 width:100%;
 }
 
-.btn-wpp{
-background:green;
-margin-bottom:10px;
-}
-
-  .topo-botoes{
+.topo-botoes{
 display:flex;
 gap:8px;
 justify-content:center;
@@ -91,7 +97,28 @@ border:none;
 border-radius:6px;
 cursor:pointer;
 }
-  
+
+.carrinho{
+background:white;
+padding:10px;
+border-radius:10px;
+margin:10px auto;
+max-width:600px;
+box-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+
+.item-carrinho{
+display:flex;
+justify-content:space-between;
+margin-bottom:5px;
+font-size:13px;
+}
+
+.remover{
+color:red;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -103,9 +130,11 @@ cursor:pointer;
 </div>
 
 <div class="topo-botoes">
-<button class="btn-azul" onclick="verCarrinho()">Ver carrinho</button>
+<button class="btn-azul" onclick="toggleCarrinho()">Ver carrinho</button>
 <button class="btn-verde" onclick="enviarPedido()">Enviar pedido</button>
 </div>
+
+<div id="carrinhoBox" class="carrinho" style="display:none;"></div>
 
 <div class="grid" id="grid"></div>
 
@@ -113,13 +142,52 @@ cursor:pointer;
 
 let carrinho = []
 
+function renderCarrinho(){
+
+let box = document.getElementById("carrinhoBox")
+
+if(carrinho.length === 0){
+box.innerHTML = "Carrinho vazio"
+return
+}
+
+let html = "<strong>Seu pedido:</strong><br><br>"
+
+carrinho.forEach((p,i)=>{
+html += `
+<div class="item-carrinho">
+${p.nome} - ${p.quantidade} un.
+<span class="remover" onclick="removerItem(${i})">X</span>
+</div>
+`
+})
+
+box.innerHTML = html
+
+}
+
+function toggleCarrinho(){
+
+let box = document.getElementById("carrinhoBox")
+
+box.style.display = box.style.display === "none" ? "block" : "none"
+
+renderCarrinho()
+
+}
+
+function removerItem(i){
+carrinho.splice(i,1)
+renderCarrinho()
+}
+
 fetch("produtos.json")
 .then(res => res.json())
 .then(produtos => {
 
 let grid = document.getElementById("grid")
 
-produtos.forEach(p => {
+produtos.forEach((p,index) => {
 
 let card = document.createElement("div")
 card.className = "card"
@@ -127,9 +195,7 @@ card.className = "card"
 let precosHTML = ""
 
 for (let qtd in p.precos) {
-precosHTML += `
-${qtd}: R$ ${Number(p.precos[qtd]).toFixed(2).replace('.', ',')}<br>
-`
+precosHTML += `${qtd}: R$ ${Number(p.precos[qtd]).toFixed(2).replace('.', ',')}<br>`
 }
 
 card.innerHTML = `
@@ -138,18 +204,15 @@ card.innerHTML = `
 ${p.nome}
 
 <div class="preco">
-
 <strong>Pedido mínimo:</strong> ${p.quantidade_minima} unidades<br><br>
-
 <span style="font-size:12px">(Valor unitário)</span><br>
-
 ${precosHTML}
-
 </div>
 
-<button class="btn" onclick="adicionar('${p.nome}')">
-Adicionar ao pedido
-</button>
+<div class="qtd-box">
+<input type="number" id="qtd_${index}" value="${p.quantidade_minima}" min="${p.quantidade_minima}">
+<button class="btn" onclick="adicionar('${p.nome}', ${index})">Add</button>
+</div>
 `
 
 grid.appendChild(card)
@@ -158,61 +221,40 @@ grid.appendChild(card)
 
 })
 
-// adicionar item
-function adicionar(nome){
+function adicionar(nome, index){
 
-let qtd = 1
+let qtd = document.getElementById(`qtd_${index}`).value
 
-if(!qtd) return
+if(qtd <= 0) return
 
 carrinho.push({
 nome: nome,
 quantidade: qtd
 })
 
-console.log("Produto adicionado")
+renderCarrinho()
 
 }
 
-// enviar pedido
 function enviarPedido(){
 
 if(carrinho.length === 0){
-alert("Nenhum item adicionado")
+alert("Adicione produtos ao pedido")
 return
 }
 
 let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
 
-carrinho.forEach(p => {
+carrinho.forEach(p=>{
 msg += `${p.nome} - ${p.quantidade} un.%0A`
 })
 
-let numero = "5511981804216" // COLOQUE SEU NÚMERO
+let numero = "5511981804216"
 
-let link = "https://wa.me/" + numero + "?text=" + msg
-
-window.open(link)
+window.open(`https://wa.me/${numero}?text=${msg}`)
 
 }
 
-  function verCarrinho(){
-
-if(carrinho.length === 0){
-console.log("Seu carrinho está vazio")
-return
-}
-
-let msg = "Itens no carrinho:%0A%0A"
-
-carrinho.forEach(p => {
-msg += `${p.nome} - ${p.quantidade} un.%0A`
-})
-
-alert(decodeURIComponent(msg.replaceAll('%0A','\n')))
-
-}
-  
 </script>
 
 </body>
