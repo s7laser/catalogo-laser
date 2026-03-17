@@ -13,13 +13,12 @@ background:#f2f2f2;
 margin:10px;
 }
 
-/* TOPO */
 .topo{
 text-align:center;
 margin-bottom:10px;
 }
 
-/* GRID RESPONSIVO */
+/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -28,7 +27,6 @@ max-width:1200px;
 margin:auto;
 }
 
-/* PC */
 @media(min-width:768px){
 .grid{
 grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
@@ -45,12 +43,10 @@ text-align:center;
 overflow:hidden;
 }
 
-/* IMAGEM */
 .card img{
 width:100%;
 height:120px;
 object-fit:contain;
-margin-bottom:5px;
 cursor:pointer;
 }
 
@@ -61,6 +57,14 @@ margin-top:6px;
 text-align:left;
 }
 
+/* SELECT COR */
+select{
+width:100%;
+margin-top:5px;
+height:32px;
+border-radius:6px;
+}
+
 /* QUANTIDADE */
 .qtd-box{
 display:flex;
@@ -69,13 +73,8 @@ gap:6px;
 margin-top:8px;
 }
 
-.qtd-label{
-font-size:13px;
-}
-
 .qtd-box input{
 width:45px;
-flex-shrink:0;
 height:32px;
 text-align:center;
 border:1px solid #ccc;
@@ -91,7 +90,6 @@ color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
-font-size:13px;
 }
 
 /* BOTÕES TOPO */
@@ -137,7 +135,7 @@ box-shadow:0 2px 4px rgba(0,0,0,0.2);
 .item-carrinho{
 display:flex;
 justify-content:space-between;
-margin-bottom:5px;
+margin-bottom:10px;
 font-size:13px;
 }
 
@@ -147,7 +145,7 @@ cursor:pointer;
 font-size:12px;
 }
 
-/* MODAL IMAGEM */
+/* MODAL */
 .modal{
 display:none;
 position:fixed;
@@ -195,7 +193,6 @@ cursor:pointer;
 
 <div class="grid" id="grid"></div>
 
-<!-- MODAL -->
 <div id="modal" class="modal" onclick="fecharModal()">
 <span class="fechar">✕</span>
 <img id="imgModal">
@@ -204,6 +201,7 @@ cursor:pointer;
 <script>
 
 let carrinho = []
+let produtos = []
 
 function renderCarrinho(){
 
@@ -214,28 +212,40 @@ box.innerHTML = "Carrinho vazio"
 return
 }
 
+let totalGeral = 0
+
 let html = "<strong>Seu pedido:</strong><br><br>"
 
 carrinho.forEach((p,i)=>{
+
+totalGeral += p.total
+
 html += `
 <div class="item-carrinho">
-${p.nome} - ${p.quantidade} un.
+<div>
+${p.nome}<br>
+${p.quantidade} un. | ${p.cor}<br>
+R$ ${p.total.toFixed(2).replace('.', ',')}
+</div>
 <span class="remover" onclick="removerItem(${i})">Remover</span>
 </div>
 `
 })
+
+html += `
+<hr>
+<strong>Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong><br>
+<span style="font-size:12px;">Frete a combinar</span>
+`
 
 box.innerHTML = html
 
 }
 
 function toggleCarrinho(){
-
 let box = document.getElementById("carrinhoBox")
 box.style.display = box.style.display === "none" ? "block" : "none"
-
 renderCarrinho()
-
 }
 
 function removerItem(i){
@@ -244,11 +254,8 @@ renderCarrinho()
 }
 
 function abrirModal(src){
-let modal = document.getElementById("modal")
-let img = document.getElementById("imgModal")
-
-img.src = src
-modal.style.display = "flex"
+document.getElementById("imgModal").src = src
+document.getElementById("modal").style.display = "flex"
 }
 
 function fecharModal(){
@@ -257,7 +264,9 @@ document.getElementById("modal").style.display = "none"
 
 fetch("produtos.json")
 .then(res => res.json())
-.then(produtos => {
+.then(data => {
+
+produtos = data
 
 let grid = document.getElementById("grid")
 
@@ -283,8 +292,16 @@ ${p.nome}
 ${precosHTML}
 </div>
 
+<select id="cor_${index}">
+<option value="">Cor</option>
+<option>Preto</option>
+<option>Branco</option>
+<option>Azul</option>
+<option>Vermelho</option>
+<option>Verde</option>
+</select>
+
 <div class="qtd-box">
-<span class="qtd-label">Quant.:</span>
 <input type="number" id="qtd_${index}" value="${p.quantidade_minima}" min="${p.quantidade_minima}">
 <button class="btn-inserir" onclick="adicionar(\`${p.nome}\`, ${index})">
 Inserir
@@ -301,6 +318,8 @@ grid.appendChild(card)
 function adicionar(nome, index){
 
 let input = document.getElementById(`qtd_${index}`)
+let cor = document.getElementById(`cor_${index}`).value
+
 let qtd = parseInt(input.value)
 let min = parseInt(input.min)
 
@@ -309,9 +328,28 @@ qtd = min
 input.value = min
 }
 
+if(!cor){
+alert("Selecione uma cor")
+return
+}
+
+let produto = produtos[index]
+let precoUnit = 0
+
+for(let faixa in produto.precos){
+if(qtd >= parseInt(faixa)){
+precoUnit = produto.precos[faixa]
+}
+}
+
+let totalItem = precoUnit * qtd
+
 carrinho.push({
-nome: nome,
-quantidade: qtd
+nome,
+quantidade:qtd,
+cor,
+preco:precoUnit,
+total:totalItem
 })
 
 renderCarrinho()
@@ -325,11 +363,20 @@ alert("Adicione produtos ao pedido")
 return
 }
 
+let totalGeral = 0
+
 let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
 
 carrinho.forEach(p=>{
-msg += `${p.nome} - ${p.quantidade} un.%0A`
+totalGeral += p.total
+
+msg += `${p.nome}%0A`
+msg += `${p.quantidade} un. | ${p.cor}%0A`
+msg += `Total: R$ ${p.total.toFixed(2)}%0A%0A`
 })
+
+msg += `Total do pedido: R$ ${totalGeral.toFixed(2)}%0A`
+msg += `Frete a combinar`
 
 let numero = "5511981804216"
 
