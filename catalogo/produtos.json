@@ -1,0 +1,26 @@
+[
+  {
+    "codigo": "01020",
+    "nome": "Caneta metal detalhe emborrachado",
+    "foto": "01020.jpg",
+    "precos": {
+      "p1": 15,
+      "p5": 12,
+      "p10": 10,
+      "p25": 9,
+      "p50": 8
+    }
+  },
+  {
+    "codigo": "13230",
+    "nome": "Caneta plástica touch",
+    "foto": "13230.jpg",
+    "precos": {
+      "p1": 10,
+      "p5": 8,
+      "p10": 7,
+      "p25": 6,
+      "p50": 5
+    }
+  }
+]
