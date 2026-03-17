@@ -1,11 +1,16 @@
 [
   {
-    "codigo": "01020",
-    "nome": "Caneta metal detalhe emborrachado",
-    "foto": "01020.jpg",
-    "quantidade_minima": 10,
-    "precos": {"p1":15,"p5":12,"p10":10,"p25":9,"p50":8}
-  },
+  "codigo": "01020",
+  "nome": "Caneta metal detalhe emborrachado",
+  "foto": "01020.jpg",
+  "quantidade_minima": 10,
+  "precos": {
+    "10": 10,
+    "30": 8,
+    "50": 6,
+    "100": 4
+  }
+},
   {
     "codigo": "13230",
     "nome": "Caneta plástica touch",
