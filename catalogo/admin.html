@@ -1,1 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Catálogo</title>
 
+<style>
+body{
+font-family:Arial;
+background:#f2f2f2;
+padding:10px;
+}
+
+h2{
+text-align:center;
+}
+
+.box{
+background:white;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+box-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+
+input, textarea{
+width:100%;
+margin-top:5px;
+margin-bottom:10px;
+padding:6px;
+}
+
+button{
+padding:8px;
+border:none;
+background:#007bff;
+color:white;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+margin-top:5px;
+}
+
+.produto{
+font-size:13px;
+border-bottom:1px solid #ddd;
+padding:5px 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Admin - Catálogo</h2>
+
+<div class="box">
+
+<label>Código</label>
+<input id="codigo">
+
+<label>Nome</label>
+<input id="nome">
+
+<label>Foto (nome do arquivo)</label>
+<input id="foto" placeholder="ex: 01020.jpg">
+
+<label>Quantidade mínima</label>
+<input id="min" type="number">
+
+<label>Cores (separadas por vírgula)</label>
+<input id="cores" placeholder="Preto,Azul,Vermelho">
+
+<label>Preços (ex: 20=8,50=6,100=5)</label>
+<input id="precos" placeholder="20=8,50=6">
+
+<button onclick="adicionar()">Adicionar Produto</button>
+
+</div>
+
+<div class="box">
+<h3>Produtos adicionados</h3>
+<div id="lista"></div>
+</div>
+
+<div class="box">
+<button onclick="gerarJSON()">Gerar JSON</button>
+<button onclick="baixarJSON()">Baixar JSON</button>
+<textarea id="saida" rows="10"></textarea>
+</div>
+
+<script>
+
+let produtos = []
+
+function adicionar(){
+
+let codigo = document.getElementById("codigo").value
+let nome = document.getElementById("nome").value
+let foto = document.getElementById("foto").value
+let min = parseInt(document.getElementById("min").value)
+
+let coresInput = document.getElementById("cores").value
+let cores = coresInput ? coresInput.split(",").map(c=>c.trim()) : []
+
+let precosInput = document.getElementById("precos").value
+let precos = {}
+
+precosInput.split(",").forEach(p=>{
+let [q,v] = p.split("=")
+precos[q.trim()] = parseFloat(v)
+})
+
+produtos.push({
+codigo,
+nome,
+foto,
+quantidade_minima:min,
+cores,
+precos
+})
+
+renderLista()
+
+limparCampos()
+
+}
+
+function renderLista(){
+
+let lista = document.getElementById("lista")
+lista.innerHTML = ""
+
+produtos.forEach((p,i)=>{
+lista.innerHTML += `
+<div class="produto">
+<b>${p.codigo}</b> - ${p.nome}
+</div>
+`
+})
+
+}
+
+function gerarJSON(){
+document.getElementById("saida").value = JSON.stringify(produtos, null, 2)
+}
+
+function baixarJSON(){
+
+let blob = new Blob([JSON.stringify(produtos, null, 2)], {type:"application/json"})
+let url = URL.createObjectURL(blob)
+
+let a = document.createElement("a")
+a.href = url
+a.download = "produtos.json"
+a.click()
+
+}
+
+function limparCampos(){
+document.getElementById("codigo").value = ""
+document.getElementById("nome").value = ""
+document.getElementById("foto").value = ""
+document.getElementById("min").value = ""
+document.getElementById("cores").value = ""
+document.getElementById("precos").value = ""
+}
+
+</script>
+
+</body>
+</html>
