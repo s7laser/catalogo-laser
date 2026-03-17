@@ -4,64 +4,128 @@
     "nome": "Caneta metal detalhe emborrachado",
     "foto": "01020.jpg",
     "quantidade_minima": 20,
-    "cores": ["Preto","Verde","Azul"],
-    "precos": {"20":8,"50":6,"100":5}
+    "cores": [
+      "Preto",
+      "Verde",
+      "Azul"
+    ],
+    "precos": {
+      "20": 8,
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "13230",
     "nome": "Caneta plástica touch",
     "foto": "13230.jpg",
     "quantidade_minima": 20,
-    "cores": ["Preto","Azul","Vinho"],
-    "precos": {"10":7,"25":6,"50":5}
+    "cores": [
+      "Preto",
+      "Azul",
+      "Vinho"
+    ],
+    "precos": {
+      "20": 8,
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "09266A",
     "nome": "Caneta metal touch",
     "foto": "09266a.jpg",
     "quantidade_minima": 20,
-    "cores": ["Preto","Azul"],
-    "precos": {"20":8,"50":6,"100":5}
+    "cores": [
+      "Preto",
+      "Azul"
+    ],
+    "precos": {
+      "20": 8,
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "08187",
     "nome": "Caneta metal",
     "foto": "08187.jpg",
     "quantidade_minima": 20,
-    "cores": ["Preto"],
-    "precos": {"20":8,"50":6,"100":5}
+    "cores": [
+      "Preto"
+    ],
+    "precos": {
+      "20": 8,
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "05015B",
     "nome": "Caneta metal touch",
     "foto": "05015b.jpg",
     "quantidade_minima": 20,
-    "cores": ["Preta","Azul"],
-    "precos": {"20":8,"50":6,"100":5}
+    "cores": [
+      "Preta",
+      "Azul"
+    ],
+    "precos": {
+      "20": 8,
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "12172",
     "nome": "Caneta bambu",
     "foto": "12172.jpg",
     "quantidade_minima": 50,
-    "cores": ["Preta","Azul","Verde","Vermelha","Laranja","Prata"],
-    "precos": {"50":6}
+    "cores": [
+      "Preta",
+      "Azul",
+      "Verde",
+      "Vermelha",
+      "Laranja",
+      "Prata"
+    ],
+    "precos": {
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "08102",
     "nome": "Caneta ecológica touch",
     "foto": "08102.jpg",
     "quantidade_minima": 50,
-    "cores": ["Rosa","Prata","Azul","Verde"],
-    "precos": {"50":6}
+    "cores": [
+      "Rosa",
+      "Prata",
+      "Azul",
+      "Verde"
+    ],
+    "precos": {
+      "50": 6,
+      "100": 5
+    }
   },
   {
     "codigo": "09824",
     "nome": "Chaveiro abridor metal",
     "foto": "09824.jpg",
     "quantidade_minima": 10,
-    "cores": ["Preto","Azul","Roxo","Vermelho"],
-    "precos": {"1":18,"5":16,"10":14,"25":12,"50":10}
+    "cores": [
+      "Preto",
+      "Azul",
+      "Roxo",
+      "Vermelho"
+    ],
+    "precos": {
+      "10": 14,
+      "20": 12,
+      "50": 10,
+      "100": 8
+    }
   },
   {
     "codigo": "06003",
@@ -69,7 +133,13 @@
     "foto": "06003.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":17,"5":15,"10":13,"25":11,"50":10}
+    "precos": {
+      "1": 17,
+      "5": 15,
+      "10": 13,
+      "25": 11,
+      "50": 10
+    }
   },
   {
     "codigo": "06038",
@@ -77,7 +147,13 @@
     "foto": "06038.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":16,"5":14,"10":12,"25":10,"50":9}
+    "precos": {
+      "1": 16,
+      "5": 14,
+      "10": 12,
+      "25": 10,
+      "50": 9
+    }
   },
   {
     "codigo": "18902",
@@ -85,7 +161,13 @@
     "foto": "18902.jpg",
     "quantidade_minima": 20,
     "cores": [],
-    "precos": {"1":16,"5":14,"10":12,"25":10,"50":9}
+    "precos": {
+      "1": 16,
+      "5": 14,
+      "10": 12,
+      "25": 10,
+      "50": 9
+    }
   },
   {
     "codigo": "12069",
@@ -93,7 +175,13 @@
     "foto": "12069.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":14,"5":12,"10":10,"25":9,"50":8}
+    "precos": {
+      "1": 14,
+      "5": 12,
+      "10": 10,
+      "25": 9,
+      "50": 8
+    }
   },
   {
     "codigo": "10250",
@@ -101,7 +189,13 @@
     "foto": "10250.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":14,"5":12,"10":10,"25":9,"50":8}
+    "precos": {
+      "1": 14,
+      "5": 12,
+      "10": 10,
+      "25": 9,
+      "50": 8
+    }
   },
   {
     "codigo": "18607",
@@ -109,7 +203,13 @@
     "foto": "18607.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":18,"5":16,"10":14,"25":12,"50":11}
+    "precos": {
+      "1": 18,
+      "5": 16,
+      "10": 14,
+      "25": 12,
+      "50": 11
+    }
   },
   {
     "codigo": "05134",
@@ -117,22 +217,67 @@
     "foto": "05134.jpg",
     "quantidade_minima": 10,
     "cores": [],
-    "precos": {"1":20,"5":18,"10":16,"25":14,"50":12}
+    "precos": {
+      "1": 20,
+      "5": 18,
+      "10": 16,
+      "25": 14,
+      "50": 12
+    }
   },
   {
     "codigo": "04080",
     "nome": "Copo térmico inox",
     "foto": "04080.jpg",
     "quantidade_minima": 1,
-    "cores": ["Preto","Azul"],
-    "precos": {"1":35,"5":30,"10":28,"25":25,"50":22}
+    "cores": [
+      "Preto",
+      "Azul"
+    ],
+    "precos": {
+      "1": 70,
+      "10": 55,
+      "50": 35
+    }
   },
   {
     "codigo": "18645L",
-    "nome": "Copo térmico 500ml",
+    "nome": "Copo térmico 500ml logo 360°",
     "foto": "18645l.jpg",
     "quantidade_minima": 1,
-    "cores": ["Preto","Azul"],
-    "precos": {"1":38,"5":33,"10":30,"25":27,"50":24}
+    "cores": [
+      "Preto",
+      "Azul"
+    ],
+    "precos": {
+      "1": 80,
+      "10": 65,
+      "50": 45
+    }
+  },
+  {
+    "codigo": "18645L",
+    "nome": "Copo Térmico 500ml logo simples",
+    "foto": "18645l.jpg",
+    "quantidade_minima": 1,
+    "cores": [
+      "Preto",
+      "Azul"
+    ],
+    "precos": {
+      "1": 65,
+      "10": 55,
+      "50": 35
+    }
+  },
+  {
+    "codigo": "",
+    "nome": "",
+    "foto": "",
+    "quantidade_minima": null,
+    "cores": [],
+    "precos": {
+      "": null
+    }
   }
 ]
