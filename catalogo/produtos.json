@@ -5,7 +5,7 @@
   "foto": "01020.jpg",
   "quantidade_minima": 20,
 
-    "cores": ["Preto","Verde","Azul"]
+    "cores": ["Preto","Verde","Azul"],
     
   "precos": {"p20":8,"p50":6,"p100:5"}
   },
@@ -15,7 +15,7 @@
     "foto": "13230.jpg",
     "quantidade_minima": 20,
 
-    "cores": ["Preto","Azul","Vinho"]
+    "cores": ["Preto","Azul","Vinho"],
     
     "precos": {"p10":7,"p25":6,"p50":5}
   },
@@ -25,7 +25,7 @@
     "foto": "09266a.jpg",
     "quantidade_minima": 20,
 
-      "cores": ["Preto","Azul"]
+      "cores": ["Preto","Azul"],
 
     "precos": {"p20":8,"p50":6,"p100:5"}
   },
@@ -35,7 +35,7 @@
     "foto": "08187.jpg",
     "quantidade_minima": 20,
 
-    "cores": ["Preto"]
+    "cores": ["Preto"],
     
     "precos": {"p20":8,"p50":6,"p100:5"}
   },
@@ -45,7 +45,7 @@
     "foto": "05015b.jpg",
     "quantidade_minima": 20,
 
-    "cores": ["Preta","Azul"]
+    "cores": ["Preta","Azul"],
     
     "precos": {"p20":8,"p50":6,"p100:5"}
   },
@@ -55,7 +55,7 @@
     "foto": "12172.jpg",
     "quantidade_minima": 50,
 
-    "cores": ["Preta","Azul","Verde","Vermelha","Laranja","Prata"]
+    "cores": ["Preta","Azul","Verde","Vermelha","Laranja","Prata"],
     
     "precos": {"p50":6}
   },
@@ -65,7 +65,7 @@
     "foto": "08102.jpg",
     "quantidade_minima": 50,
 
-    "cores": ["Rosa","Prata","Azul","Verde"]
+    "cores": ["Rosa","Prata","Azul","Verde"],
     
     "precos": {"p50":6}
   },
@@ -75,7 +75,7 @@
     "foto": "09824.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Preto","Azul","Roxo","Vermelho"]
+    "cores": ["Preto","Azul","Roxo","Vermelho"],
     
     "precos": {"p1":18,"p5":16,"p10":14,"p25":12,"p50":10}
   },
@@ -85,7 +85,7 @@
     "foto": "06003.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Madeira"]
+    "cores": [],
     
     "precos": {"p1":17,"p5":15,"p10":13,"p25":11,"p50":10}
   },
@@ -95,7 +95,7 @@
     "foto": "06038.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Madeira"]
+    "cores": [],
     
     "precos": {"p1":16,"p5":14,"p10":12,"p25":10,"p50":9}
   },
@@ -105,7 +105,7 @@
     "foto": "18902.jpg",
     "quantidade_minima": 20,
 
-    "cores": ["Madeira"]
+    "cores": [],
     
     "precos": {"p1":16,"p5":14,"p10":12,"p25":10,"p50":9}
   },
@@ -115,7 +115,7 @@
     "foto": "12069.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Prata"]
+    "cores": [],
     
     "precos": {"p1":14,"p5":12,"p10":10,"p25":9,"p50":8}
   },
@@ -125,7 +125,7 @@
     "foto": "10250.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Prata"]
+    "cores": [],
     
     "precos": {"p1":14,"p5":12,"p10":10,"p25":9,"p50":8}
   },
@@ -135,7 +135,7 @@
     "foto": "18607.jpg",
     "quantidade_minima": 10,
 
-    "cores": ["Prata"]
+    "cores": [],
     
     "precos": {"p1":18,"p5":16,"p10":14,"p25":12,"p50":11}
   },
@@ -145,7 +145,7 @@
     "foto": "05134.jpg",
     "quantidade_minima": 10,
 
-    "cores": []
+    "cores": [],
     
     "precos": {"p1":20,"p5":18,"p10":16,"p25":14,"p50":12}
   },
@@ -155,7 +155,7 @@
     "foto": "04080.jpg",
     "quantidade_minima": 1,
 
-    "cores": ["Preto","Azul"]
+    "cores": ["Preto","Azul"],
     
     "precos": {"p1":35,"p5":30,"p10":28,"p25":25,"p50":22}
   },
@@ -165,7 +165,7 @@
     "foto": "18645l.jpg",
     "quantidade_minima": 1,
     
-    "cores": ["Preto","Azul"]
+    "cores": ["Preto","Azul"],
     
     "precos": {"p1":38,"p5":33,"p10":30,"p25":27,"p50":24}
   }
