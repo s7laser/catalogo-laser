@@ -13,57 +13,69 @@ background:#f2f2f2;
 margin:10px;
 }
 
+/* TOPO */
 .topo{
 text-align:center;
 margin-bottom:10px;
 }
 
+/* GRID RESPONSIVO */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+grid-template-columns:repeat(2,1fr);
 gap:10px;
 max-width:1200px;
 margin:auto;
 }
 
+/* PC */
+@media(min-width:768px){
+.grid{
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+}
+}
+
+/* CARD */
 .card{
 background:white;
 padding:10px;
 border-radius:10px;
 box-shadow:0 2px 4px rgba(0,0,0,0.2);
 text-align:center;
+overflow:hidden;
 }
 
+/* IMAGEM */
 .card img{
 width:100%;
 height:120px;
 object-fit:contain;
 margin-bottom:5px;
+cursor:pointer;
 }
 
+/* PREÇO */
 .preco{
 font-size:13px;
 margin-top:6px;
 text-align:left;
 }
 
+/* QUANTIDADE */
 .qtd-box{
 display:flex;
 align-items:center;
-justify-content:flex-start;
 gap:6px;
 margin-top:8px;
 }
 
 .qtd-label{
 font-size:13px;
-white-space:nowrap;
 }
 
 .qtd-box input{
-width:50px;
-min-width:50px;
-max-width:50px;
+width:45px;
+flex-shrink:0;
 height:32px;
 text-align:center;
 border:1px solid #ccc;
@@ -71,8 +83,8 @@ border-radius:6px;
 }
 
 .btn-inserir{
-width:70px;
-min-width:70px;
+flex:1;
+min-width:0;
 height:32px;
 background:#007bff;
 color:white;
@@ -82,6 +94,7 @@ cursor:pointer;
 font-size:13px;
 }
 
+/* BOTÕES TOPO */
 .topo-botoes{
 display:flex;
 gap:8px;
@@ -111,6 +124,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
+/* CARRINHO */
 .carrinho{
 background:white;
 padding:10px;
@@ -133,6 +147,35 @@ cursor:pointer;
 font-size:12px;
 }
 
+/* MODAL IMAGEM */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.modal img{
+max-width:90%;
+max-height:80%;
+border-radius:10px;
+}
+
+.fechar{
+position:absolute;
+top:20px;
+right:20px;
+color:white;
+font-size:22px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -151,6 +194,12 @@ font-size:12px;
 <div id="carrinhoBox" class="carrinho" style="display:none;"></div>
 
 <div class="grid" id="grid"></div>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="fecharModal()">
+<span class="fechar">✕</span>
+<img id="imgModal">
+</div>
 
 <script>
 
@@ -183,7 +232,6 @@ box.innerHTML = html
 function toggleCarrinho(){
 
 let box = document.getElementById("carrinhoBox")
-
 box.style.display = box.style.display === "none" ? "block" : "none"
 
 renderCarrinho()
@@ -193,6 +241,18 @@ renderCarrinho()
 function removerItem(i){
 carrinho.splice(i,1)
 renderCarrinho()
+}
+
+function abrirModal(src){
+let modal = document.getElementById("modal")
+let img = document.getElementById("imgModal")
+
+img.src = src
+modal.style.display = "flex"
+}
+
+function fecharModal(){
+document.getElementById("modal").style.display = "none"
 }
 
 fetch("produtos.json")
@@ -213,7 +273,7 @@ precosHTML += `${qtd}: R$ ${Number(p.precos[qtd]).toFixed(2).replace('.', ',')}<
 }
 
 card.innerHTML = `
-<img src="../${p.foto}">
+<img src="../${p.foto}" onclick="abrirModal('../${p.foto}')">
 <b>${p.codigo}</b><br>
 ${p.nome}
 
