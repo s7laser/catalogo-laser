@@ -18,7 +18,7 @@ text-align:center;
 margin-bottom:10px;
 }
 
-/* GRID */
+/* GRID CORRIGIDO */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -27,9 +27,17 @@ max-width:1200px;
 margin:auto;
 }
 
-@media(min-width:768px){
+/* Tablet */
+@media(min-width:600px){
 .grid{
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+grid-template-columns:repeat(3,1fr);
+}
+}
+
+/* PC */
+@media(min-width:900px){
+.grid{
+grid-template-columns:repeat(4,1fr);
 }
 }
 
@@ -57,7 +65,7 @@ margin-top:6px;
 text-align:left;
 }
 
-/* SELECT COR */
+/* SELECT */
 select{
 width:100%;
 margin-top:5px;
@@ -92,7 +100,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
-/* BOTÕES TOPO */
+/* BOTÕES */
 .topo-botoes{
 display:flex;
 gap:8px;
@@ -100,27 +108,18 @@ justify-content:center;
 margin-bottom:10px;
 }
 
-.btn-azul{
+.btn-azul, .btn-verde{
 flex:1;
 max-width:180px;
 padding:8px;
-background:#007bff;
 color:white;
 border:none;
 border-radius:6px;
 cursor:pointer;
 }
 
-.btn-verde{
-flex:1;
-max-width:180px;
-padding:8px;
-background:green;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
+.btn-azul{ background:#007bff; }
+.btn-verde{ background:green; }
 
 /* CARRINHO */
 .carrinho{
@@ -213,7 +212,6 @@ return
 }
 
 let totalGeral = 0
-
 let html = "<strong>Seu pedido:</strong><br><br>"
 
 carrinho.forEach((p,i)=>{
@@ -276,7 +274,6 @@ let card = document.createElement("div")
 card.className = "card"
 
 let precosHTML = ""
-
 let coresHTML = '<option value="">Cor</option>'
 
 if(p.cores && p.cores.length > 0){
@@ -369,7 +366,6 @@ return
 }
 
 let totalGeral = 0
-
 let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
 
 carrinho.forEach(p=>{
