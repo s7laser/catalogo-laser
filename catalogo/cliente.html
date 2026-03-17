@@ -161,7 +161,7 @@ grid.appendChild(card)
 // adicionar item
 function adicionar(nome){
 
-let qtd = prompt("Digite a quantidade:")
+let qtd = 1
 
 if(!qtd) return
 
@@ -170,7 +170,7 @@ nome: nome,
 quantidade: qtd
 })
 
-alert("Produto adicionado")
+console.log("Produto adicionado")
 
 }
 
@@ -199,7 +199,7 @@ window.open(link)
   function verCarrinho(){
 
 if(carrinho.length === 0){
-alert("Seu carrinho está vazio")
+console.log("Seu carrinho está vazio")
 return
 }
 
