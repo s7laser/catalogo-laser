@@ -277,6 +277,16 @@ card.className = "card"
 
 let precosHTML = ""
 
+let coresHTML = '<option value="">Cor</option>'
+
+if(p.cores && p.cores.length > 0){
+p.cores.forEach(c=>{
+coresHTML += `<option>${c}</option>`
+})
+} else {
+coresHTML = '<option value="Único">Cor única</option>'
+}
+
 for (let qtd in p.precos) {
 precosHTML += `${qtd}: R$ ${Number(p.precos[qtd]).toFixed(2).replace('.', ',')}<br>`
 }
@@ -293,12 +303,7 @@ ${precosHTML}
 </div>
 
 <select id="cor_${index}">
-<option value="">Cor</option>
-<option>Preto</option>
-<option>Branco</option>
-<option>Azul</option>
-<option>Vermelho</option>
-<option>Verde</option>
+${coresHTML}
 </select>
 
 <div class="qtd-box">
