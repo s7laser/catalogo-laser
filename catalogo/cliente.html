@@ -1,7 +1,3 @@
-<div style="text-align:center; margin-bottom:10px;">
-<img src="../logo.png" style="max-width:180px;"><br>
-</div>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,10 +11,6 @@ body{
 font-family:Arial;
 background:#f2f2f2;
 margin:10px;
-}
-
-h2{
-text-align:center;
 }
 
 .grid{
@@ -50,16 +42,48 @@ margin-top:6px;
 text-align:left;
 }
 
+.topo{
+text-align:center;
+margin-bottom:10px;
+}
+
+.btn{
+margin-top:6px;
+padding:6px;
+border:none;
+background:#007bff;
+color:white;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+.btn-wpp{
+background:green;
+margin-bottom:10px;
+}
+
 </style>
 </head>
 
 <body>
 
-<h2>Catálogo de Produtos</h2>
+<div class="topo">
+<img src="../logo.png" style="max-width:180px;"><br>
+<strong>Catálogo de Produtos</strong>
+</div>
+
+<div style="text-align:center;">
+<button class="btn btn-wpp" onclick="enviarPedido()">
+Enviar pedido pelo WhatsApp
+</button>
+</div>
 
 <div class="grid" id="grid"></div>
 
 <script>
+
+let carrinho = []
 
 fetch("produtos.json")
 .then(res => res.json())
@@ -72,7 +96,6 @@ produtos.forEach(p => {
 let card = document.createElement("div")
 card.className = "card"
 
-// monta lista dinâmica de preços
 let precosHTML = ""
 
 for (let qtd in p.precos) {
@@ -95,6 +118,10 @@ ${p.nome}
 ${precosHTML}
 
 </div>
+
+<button class="btn" onclick="adicionar('${p.nome}')">
+Adicionar ao pedido
+</button>
 `
 
 grid.appendChild(card)
@@ -102,6 +129,44 @@ grid.appendChild(card)
 })
 
 })
+
+// adicionar item
+function adicionar(nome){
+
+let qtd = prompt("Digite a quantidade:")
+
+if(!qtd) return
+
+carrinho.push({
+nome: nome,
+quantidade: qtd
+})
+
+alert("Produto adicionado")
+
+}
+
+// enviar pedido
+function enviarPedido(){
+
+if(carrinho.length === 0){
+alert("Nenhum item adicionado")
+return
+}
+
+let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
+
+carrinho.forEach(p => {
+msg += `${p.nome} - ${p.quantidade} un.%0A`
+})
+
+let numero = "5511999999999" // COLOQUE SEU NÚMERO
+
+let link = "https://wa.me/" + numero + "?text=" + msg
+
+window.open(link)
+
+}
 
 </script>
 
