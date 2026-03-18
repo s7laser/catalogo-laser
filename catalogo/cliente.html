@@ -368,6 +368,7 @@ precoUnit = produto.precos[faixa]
 let totalItem = precoUnit * qtd
 
 carrinho.push({
+codigo: produtos[index].codigo,  // 👈 NOVO
 nome,
 quantidade:qtd,
 cor,
