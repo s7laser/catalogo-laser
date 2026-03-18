@@ -149,7 +149,7 @@ cursor:pointer;
 font-size:12px;
 }
 
-/* ===== MODAL NOVO ===== */
+/* ===== MODAL ===== */
 
 .modal{
 display:none;
@@ -220,14 +220,21 @@ cursor:pointer;
 
 <div class="grid" id="grid"></div>
 
-<div id="modal" class="modal">
-<span class="fechar" onclick="fecharModal()">✕</span>
+<!-- MODAL CORRIGIDO -->
+<div id="modal" class="modal" onclick="fecharModal(event)">
+<span class="fechar" onclick="fecharModal(event)">✕</span>
+
+<div onclick="event.stopPropagation()">
 <img id="imgModal">
+
 <div class="modal-desc" id="descModal"></div>
+
 <div class="modal-nav">
 <button onclick="anterior()">◀</button>
 <button onclick="proxima()">▶</button>
 </div>
+</div>
+
 </div>
 
 <script>
@@ -283,7 +290,7 @@ carrinho.splice(i,1)
 renderCarrinho()
 }
 
-/* ===== MODAL NOVO ===== */
+/* ===== MODAL ===== */
 
 function abrirModalProduto(index){
 
@@ -312,9 +319,17 @@ fotoIndex = (fotoIndex - 1 + fotosAtual.length) % fotosAtual.length
 mostrarFoto()
 }
 
-function fecharModal(){
+function fecharModal(e){
+if(e) e.stopPropagation()
 document.getElementById("modal").style.display = "none"
 }
+
+/* ESC fecha modal */
+document.addEventListener("keydown", function(e){
+if(e.key === "Escape"){
+fecharModal()
+}
+})
 
 /* ===== PRODUTOS ===== */
 
