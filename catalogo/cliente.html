@@ -5,14 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catálogo de Produtos</title>
 
+<!-- ================= CSS ================= -->
 <style>
 
+/* ===== CONFIG GERAL ===== */
 body{
 font-family:Arial;
 background:#f2f2f2;
 margin:20px;
 }
 
+/* ===== TOPO ===== */
 .topo{
 display:flex;
 flex-direction:column;
@@ -20,11 +23,13 @@ align-items:center;
 margin-bottom:20px;
 }
 
+/* 👉 AJUSTE TAMANHO DO LOGO */
 .topo img{
 max-width:180px;
 margin-bottom:15px;
 }
 
+/* 👉 AJUSTE TAMANHO DO TÍTULO */
 .titulo{
 font-size:30px;
 font-weight:bold;
@@ -32,6 +37,7 @@ color:#333;
 text-align:center;
 }
 
+/* ===== GRID ===== */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -40,6 +46,7 @@ max-width:1200px;
 margin:auto;
 }
 
+/* 👉 RESPONSIVO */
 @media(min-width:600px){
 .grid{ grid-template-columns:repeat(3,1fr); }
 }
@@ -48,6 +55,7 @@ margin:auto;
 .grid{ grid-template-columns:repeat(4,1fr); }
 }
 
+/* ===== CARD ===== */
 .card{
 background:white;
 padding:10px;
@@ -59,6 +67,7 @@ align-items:center;
 text-align:center;
 }
 
+/* 👉 IMAGEM DO PRODUTO */
 .card img{
 width:100%;
 height:120px;
@@ -66,11 +75,13 @@ object-fit:contain;
 cursor:pointer;
 }
 
+/* 👉 PREÇOS */
 .preco{
 font-size:13px;
 margin-top:6px;
 }
 
+/* ===== AÇÕES (PARTE DE BAIXO DO CARD) ===== */
 .acoes{
 margin-top:auto;
 width:100%;
@@ -107,6 +118,7 @@ border-radius:6px;
 cursor:pointer;
 }
 
+/* ===== BOTÕES SUPERIORES ===== */
 .topo-botoes{
 display:flex;
 gap:8px;
@@ -127,6 +139,7 @@ cursor:pointer;
 .btn-azul{ background:#007bff; }
 .btn-verde{ background:green; }
 
+/* ===== CARRINHO ===== */
 .carrinho{
 background:white;
 padding:10px;
@@ -149,7 +162,7 @@ cursor:pointer;
 font-size:12px;
 }
 
-/* ===== MODAL CORRIGIDO ===== */
+/* ===== MODAL (CORRIGIDO DE VERDADE) ===== */
 
 .modal{
 display:none;
@@ -158,34 +171,42 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.9);
-flex-direction:column;
-justify-content:flex-start;
-align-items:center;
+background:rgba(0,0,0,0.95);
 z-index:999;
-padding:20px;
+
+/* 👉 ESSENCIAL PRA MOBILE */
 overflow-y:auto;
+padding:20px;
 }
 
+/* 👉 CONTAINER CENTRAL DO MODAL */
+.modal-conteudo{
+max-width:500px;
+margin:auto;
+text-align:center;
+}
+
+/* 👉 IMAGEM */
 .modal img{
-max-width:90%;
+width:100%;
 max-height:50vh;
+object-fit:contain;
 border-radius:10px;
 margin-top:40px;
 }
 
+/* 👉 DESCRIÇÃO (AJUSTE AQUI SE QUISER) */
 .modal-desc{
 color:white;
 margin-top:15px;
-max-width:500px;
-text-align:center;
 font-size:14px;
-line-height:1.4;
-padding-bottom:30px;
+line-height:1.5;
+text-align:center;
 }
 
+/* 👉 BOTÕES DE NAVEGAÇÃO */
 .modal-nav{
-margin-top:10px;
+margin-top:15px;
 margin-bottom:30px;
 }
 
@@ -197,12 +218,13 @@ border-radius:6px;
 cursor:pointer;
 }
 
+/* 👉 BOTÃO FECHAR */
 .fechar{
 position:fixed;
 top:15px;
 right:15px;
 color:white;
-font-size:24px;
+font-size:26px;
 cursor:pointer;
 z-index:1000;
 }
@@ -212,9 +234,11 @@ z-index:1000;
 
 <body>
 
+<!-- ================= HTML ================= -->
+
 <div class="topo">
-<img src="../logo.png">
-<div class="titulo">Catálogo de Produtos</div>
+  <img src="../logo.png">
+  <div class="titulo">Catálogo de Produtos</div>
 </div>
 
 <div class="topo-botoes">
@@ -226,11 +250,13 @@ z-index:1000;
 
 <div class="grid" id="grid"></div>
 
-<!-- MODAL -->
+<!-- ===== MODAL ===== -->
 <div id="modal" class="modal" onclick="fecharModal(event)">
+
 <span class="fechar" onclick="fecharModal(event)">✕</span>
 
-<div onclick="event.stopPropagation()">
+<div class="modal-conteudo" onclick="event.stopPropagation()">
+
 <img id="imgModal">
 
 <div class="modal-desc" id="descModal"></div>
@@ -239,16 +265,19 @@ z-index:1000;
 <button onclick="anterior()">◀</button>
 <button onclick="proxima()">▶</button>
 </div>
-</div>
 
 </div>
+</div>
 
+<!-- ================= JS ================= -->
 <script>
 
 let carrinho = []
 let produtos = []
 let fotosAtual = []
 let fotoIndex = 0
+
+/* ===== CARRINHO ===== */
 
 function renderCarrinho(){
 let box = document.getElementById("carrinhoBox")
@@ -278,8 +307,7 @@ R$ ${p.total.toFixed(2).replace('.', ',')}
 
 html += `
 <hr>
-<strong>Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong><br>
-<span style="font-size:12px;">Frete a combinar</span>
+<strong>Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong>
 `
 
 box.innerHTML = html
@@ -296,6 +324,8 @@ carrinho.splice(i,1)
 renderCarrinho()
 }
 
+/* ===== MODAL ===== */
+
 function abrirModalProduto(index){
 
 let p = produtos[index]
@@ -306,7 +336,7 @@ fotoIndex = 0
 mostrarFoto()
 
 document.getElementById("descModal").innerText = p.descricao || ""
-document.getElementById("modal").style.display = "flex"
+document.getElementById("modal").style.display = "block"
 }
 
 function mostrarFoto(){
@@ -328,11 +358,14 @@ if(e) e.stopPropagation()
 document.getElementById("modal").style.display = "none"
 }
 
+/* 👉 FECHAR COM ESC */
 document.addEventListener("keydown", function(e){
 if(e.key === "Escape"){
 fecharModal()
 }
 })
+
+/* ===== CARREGAR PRODUTOS ===== */
 
 fetch("produtos.json")
 .then(res => res.json())
@@ -368,7 +401,6 @@ ${p.nome}
 
 <div class="preco">
 <strong>Ped. min.:</strong> ${p.quantidade_minima} un.<br><br>
-<span style="font-size:12px">(Valor unitário)</span><br>
 ${precosHTML}
 </div>
 
@@ -393,6 +425,8 @@ grid.appendChild(card)
 })
 
 })
+
+/* ===== ADICIONAR ===== */
 
 function adicionar(index){
 
@@ -428,12 +462,13 @@ codigo: produto.codigo,
 nome: produto.nome,
 quantidade:qtd,
 cor,
-preco:precoUnit,
 total:totalItem
 })
 
 renderCarrinho()
 }
+
+/* ===== WHATSAPP ===== */
 
 function enviarPedido(){
 
@@ -453,12 +488,9 @@ msg += `${p.quantidade} un. | ${p.cor}%0A`
 msg += `Total: R$ ${p.total.toFixed(2)}%0A%0A`
 })
 
-msg += `Total do pedido: R$ ${totalGeral.toFixed(2)}%0A`
-msg += `Frete a combinar`
+msg += `Total do pedido: R$ ${totalGeral.toFixed(2)}`
 
-let numero = "5511981804216"
-
-window.open(`https://wa.me/${numero}?text=${msg}`)
+window.open(`https://wa.me/5511981804216?text=${msg}`)
 }
 
 </script>
