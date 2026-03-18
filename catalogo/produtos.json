@@ -241,9 +241,11 @@
     }
   },
   {
-    "codigo": "18645L",
+    "codigo": "18645L_360",
     "nome": "Copo térmico 500ml logo 360°",
     "foto": "18645l.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Copo térmico inox 500ml com tampa e abridor, acabamento levemente texturizado. Tampa livre de BPA, e gravação em 360 graus.",
     "quantidade_minima": 1,
     "cores": [
       "Preto",
