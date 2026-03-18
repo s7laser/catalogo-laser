@@ -269,15 +269,5 @@
       "10": 55,
       "50": 35
     }
-  },
-  {
-    "codigo": "",
-    "nome": "",
-    "foto": "",
-    "quantidade_minima": null,
-    "cores": [],
-    "precos": {
-      "": null
-    }
   }
 ]
