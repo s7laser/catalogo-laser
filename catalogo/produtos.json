@@ -4,7 +4,7 @@
     "nome": "Caneta metal detalhe emborrachado",
     "foto": "01020.jpg",
     "fotos": [],
-    "descricao": "Descrição: Caneta metálica com design quadrangular, acabamento brilhante (exceto a prata) e detalhe emborrachado, carga esferográfica azul 1.0 mm e acionamento por clique.",
+    "descricao": "Descrição: Caneta metálica com design quadrangular, acabamento brilhante (exceto a prata) e detalhe emborrachado, carga esferográfica azul 1.0 mm e acionamento por clique.",
     "quantidade_minima": 20,
     "cores": [
       "Preto",
@@ -21,6 +21,8 @@
     "codigo": "13230",
     "nome": "Caneta plástica touch",
     "foto": "13230.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta plástica com touch screen, acionamento por rotação e carga esferográfica azul 1mm.",
     "quantidade_minima": 20,
     "cores": [
       "Preto",
@@ -37,6 +39,8 @@
     "codigo": "09266A",
     "nome": "Caneta metal touch",
     "foto": "09266a.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta em metal com clip e ponta em plástico, além de detalhe emborrachado no topo para interação com dispositivos de telas sensíveis ao toque. Conta com acionamento por clique e carga esferográfica azul de 1,0mm.",
     "quantidade_minima": 20,
     "cores": [
       "Preto",
@@ -52,6 +56,8 @@
     "codigo": "08187",
     "nome": "Caneta metal",
     "foto": "08187.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta com carga esferográfica azul de 1.0mm. Apresenta corpo metálico, detalhes em bambu e acionamento por clique, oferecendo uma pegada leve para uma escrita precisa.",
     "quantidade_minima": 20,
     "cores": [
       "Preto"
@@ -66,6 +72,8 @@
     "codigo": "05015B",
     "nome": "Caneta metal touch",
     "foto": "05015b.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta metálica touchscreen com acabamento similar à borracha, acionamento por clique e carga esferográfica azul 1.0mm.",
     "quantidade_minima": 20,
     "cores": [
       "Preta",
@@ -81,6 +89,8 @@
     "codigo": "12172",
     "nome": "Caneta bambu",
     "foto": "12172.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta de bambu com detalhes plásticos, carga esferográfica azul 1.0 mm e acionamento por clique.",
     "quantidade_minima": 50,
     "cores": [
       "Preta",
@@ -99,6 +109,8 @@
     "codigo": "08102",
     "nome": "Caneta ecológica touch",
     "foto": "08102.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Boa escrita começa com escolhas conscientes. A nossa caneta ecológica touch de bambu, é a opção ideal para dias intensos de anotações. Com detalhes plásticos e ponta touch, é possível utilizá-la em dispositivos eletrônicos sem tocar diretamente na tela, evitando manchas indesejadas. Essa caneta é a combinação perfeita de sustentabilidade e praticidade.",
     "quantidade_minima": 50,
     "cores": [
       "Rosa",
@@ -113,8 +125,10 @@
   },
   {
     "codigo": "09824",
-    "nome": "Chaveiro abridor metal",
+    "nome": "Chaveiro metal abridor",
     "foto": "09824.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Chaveiro metálico com abridor de garrafas e argola de ferro niquelado.",
     "quantidade_minima": 10,
     "cores": [
       "Preto",
@@ -133,6 +147,8 @@
     "codigo": "06003",
     "nome": "Chaveiro abridor madeira",
     "foto": "06003.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Chaveiro em madeira com abridor de garrafas em metal e argola de ferro niquelado.",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -145,8 +161,10 @@
   },
   {
     "codigo": "06038",
-    "nome": "Chaveiro madeira",
+    "nome": "Chaveiro madeira quadrado",
     "foto": "06038.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Chaveiro em madeira com formato quadrado e argola de metal.",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -159,8 +177,10 @@
   },
   {
     "codigo": "18902",
-    "nome": "Chaveiro madeira",
+    "nome": "Chaveiro madeira oval",
     "foto": "18902.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Feito em madeira com um delicado detalhe em couro sintético, este chaveiro é a escolha perfeita para quem busca organizar suas chaves com um toque rústico e de modernidade ao mesmo tempo. Durável e prático, acompanha o cliente em todas as ocasiões.",
     "quantidade_minima": 20,
     "cores": [],
     "precos": {
@@ -173,8 +193,10 @@
   },
   {
     "codigo": "12069",
-    "nome": "Espelho plástico quadrado",
+    "nome": "Espelho plástico quadrado sem aumento",
     "foto": "12069.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Espelho retangular duplo sem aumento, material em plástico resistente com superfície ondulada(área para gravação não é plana).",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -187,8 +209,10 @@
   },
   {
     "codigo": "10250",
-    "nome": "Espelho plástico retangular",
+    "nome": "Espelho plástico retangular sem aumento",
     "foto": "10250.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Espelho de formato retangular sem aumento com estrutura feita em plástico liso resistente.",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -201,8 +225,10 @@
   },
   {
     "codigo": "18607",
-    "nome": "Espelho duplo",
+    "nome": "Espelho duplo sem aumento",
     "foto": "18607.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Espelho duplo sem aumento com moldura plana de bordas arredondadas feita em plástico.",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -215,8 +241,10 @@
   },
   {
     "codigo": "05134",
-    "nome": "Bloco ecológico",
+    "nome": "Bloco ecológico bambu com caneta",
     "foto": "05134.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caderno ecológica com caneta. Capa de bambu. Possui aproximadamente 50 folhas brancas pautadas. Acompanha uma caneta de bambu com detalhes em metal.",
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
@@ -229,8 +257,10 @@
   },
   {
     "codigo": "04080",
-    "nome": "Copo térmico inox",
+    "nome": "Copo térmico inox 473ml",
     "foto": "04080.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Copo térmico de inox com capacidade para 473ml.",
     "quantidade_minima": 1,
     "cores": [
       "Preto",
@@ -263,6 +293,8 @@
     "codigo": "18645L",
     "nome": "Copo Térmico 500ml logo simples",
     "foto": "18645l.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Copo térmico de inox com acabamento liso e capacidade 500ml, material livre de BPA. Contém tampa com abridor. Gravação de logotipo simples em um dos lados",
     "quantidade_minima": 1,
     "cores": [
       "Preto",
