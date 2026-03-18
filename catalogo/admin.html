@@ -22,7 +22,7 @@ margin-bottom:10px;
 box-shadow:0 2px 4px rgba(0,0,0,0.2);
 }
 
-input{
+input, textarea{
 width:100%;
 margin-bottom:8px;
 padding:6px;
@@ -61,10 +61,8 @@ font-size:12px;
 }
 
 textarea{
-width:100%;
-margin-top:10px;
+min-height:60px;
 }
-
 </style>
 </head>
 
@@ -76,7 +74,10 @@ margin-top:10px;
 
 <input id="codigo" placeholder="Código">
 <input id="nome" placeholder="Nome">
-<input id="foto" placeholder="Foto (ex: 01020.jpg)">
+<input id="foto" placeholder="Foto principal (ex: 01020.jpg)">
+<input id="fotos" placeholder="Fotos adicionais (img1.jpg,img2.jpg,img3.jpg)">
+<textarea id="descricao" placeholder="Descrição do produto"></textarea>
+
 <input id="min" type="number" placeholder="Quantidade mínima">
 <input id="cores" placeholder="Cores (Preto,Azul)">
 <input id="precos" placeholder="Preços (20=8,50=6)">
@@ -93,7 +94,7 @@ margin-top:10px;
 <div class="box">
 <button onclick="gerarJSON()">Gerar JSON</button>
 <button onclick="baixarJSON()">Baixar JSON</button>
-<textarea id="saida" rows="10"></textarea>
+<textarea id="saida" rows="12"></textarea>
 </div>
 
 <script>
@@ -102,14 +103,12 @@ let produtos = []
 let editandoIndex = null
 
 function carregarJSON(){
-
 fetch("produtos.json")
 .then(res=>res.json())
 .then(data=>{
 produtos = data
 renderLista()
 })
-
 }
 
 function renderLista(){
@@ -147,14 +146,19 @@ let p = produtos[i]
 document.getElementById("codigo").value = p.codigo
 document.getElementById("nome").value = p.nome
 document.getElementById("foto").value = p.foto
+
+document.getElementById("fotos").value = (p.fotos || []).join(",")
+
+document.getElementById("descricao").value = p.descricao || ""
+
 document.getElementById("min").value = p.quantidade_minima
+
 document.getElementById("cores").value = p.cores.join(",")
 
 let precosTexto = ""
 for(let k in p.precos){
 precosTexto += `${k}=${p.precos[k]},`
 }
-
 document.getElementById("precos").value = precosTexto.slice(0,-1)
 
 editandoIndex = i
@@ -162,15 +166,23 @@ editandoIndex = i
 }
 
 function remover(i){
+if(confirm("Excluir produto?")){
 produtos.splice(i,1)
 renderLista()
+}
 }
 
 function salvarProduto(){
 
-let codigo = document.getElementById("codigo").value
-let nome = document.getElementById("nome").value
-let foto = document.getElementById("foto").value
+let codigo = document.getElementById("codigo").value.trim()
+let nome = document.getElementById("nome").value.trim()
+let foto = document.getElementById("foto").value.trim()
+
+let fotos = document.getElementById("fotos").value
+.split(",").map(f=>f.trim()).filter(f=>f)
+
+let descricao = document.getElementById("descricao").value.trim()
+
 let min = parseInt(document.getElementById("min").value)
 
 let cores = document.getElementById("cores").value
@@ -181,13 +193,22 @@ let precos = {}
 
 precosInput.forEach(p=>{
 let [q,v] = p.split("=")
+if(q && v){
 precos[q.trim()] = parseFloat(v)
+}
 })
+
+if(!codigo || !nome || !foto || !min){
+alert("Preencha os campos obrigatórios")
+return
+}
 
 let novo = {
 codigo,
 nome,
 foto,
+fotos,
+descricao,
 quantidade_minima:min,
 cores,
 precos
@@ -203,12 +224,16 @@ produtos.push(novo)
 limparCampos()
 renderLista()
 
+alert("Produto salvo com sucesso")
+
 }
 
 function limparCampos(){
 document.getElementById("codigo").value=""
 document.getElementById("nome").value=""
 document.getElementById("foto").value=""
+document.getElementById("fotos").value=""
+document.getElementById("descricao").value=""
 document.getElementById("min").value=""
 document.getElementById("cores").value=""
 document.getElementById("precos").value=""
@@ -219,7 +244,6 @@ document.getElementById("saida").value = JSON.stringify(produtos,null,2)
 }
 
 function baixarJSON(){
-
 let blob = new Blob([JSON.stringify(produtos,null,2)],{type:"application/json"})
 let url = URL.createObjectURL(blob)
 
@@ -227,7 +251,6 @@ let a = document.createElement("a")
 a.href = url
 a.download = "produtos.json"
 a.click()
-
 }
 
 carregarJSON()
