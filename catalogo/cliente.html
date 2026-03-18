@@ -240,7 +240,7 @@ totalGeral += p.total
 html += `
 <div class="item-carrinho">
 <div>
-${p.nome}<br>
+${p.codigo} - ${p.nome}<br> <!-- 👈 AGORA MOSTRA O CÓDIGO -->
 ${p.quantidade} un. | ${p.cor}<br>
 R$ ${p.total.toFixed(2).replace('.', ',')}
 </div>
@@ -324,7 +324,7 @@ ${coresHTML}
 
 <div class="qtd-box">
 <input type="number" id="qtd_${index}" value="${p.quantidade_minima}" min="${p.quantidade_minima}">
-<button class="btn-inserir" onclick="adicionar(\`${p.nome}\`, ${index})">
+<button class="btn-inserir" onclick="adicionar(${index})">
 Inserir
 </button>
 </div>
@@ -338,7 +338,7 @@ grid.appendChild(card)
 
 })
 
-function adicionar(nome, index){
+function adicionar(index){
 
 let input = document.getElementById(`qtd_${index}`)
 let cor = document.getElementById(`cor_${index}`).value
@@ -368,8 +368,8 @@ precoUnit = produto.precos[faixa]
 let totalItem = precoUnit * qtd
 
 carrinho.push({
-codigo: produtos[index].codigo,  // 👈 NOVO
-nome,
+codigo: produto.codigo,   // 👈 GARANTIDO
+nome: produto.nome,       // 👈 GARANTIDO
 quantidade:qtd,
 cor,
 preco:precoUnit,
@@ -392,7 +392,7 @@ let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
 carrinho.forEach(p=>{
 totalGeral += p.total
 
-msg += `${p.nome}%0A`
+msg += `${p.codigo} - ${p.nome}%0A`  // 👈 AQUI ESTÁ O PRINCIPAL
 msg += `${p.quantidade} un. | ${p.cor}%0A`
 msg += `Total: R$ ${p.total.toFixed(2)}%0A%0A`
 })
