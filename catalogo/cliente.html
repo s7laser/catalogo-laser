@@ -19,14 +19,14 @@ margin-bottom:6px; /* distância do texto */
 }
 
 .titulo{
-font-size:48px; /* tamanho da fonte */
+font-size:24px; /* tamanho da fonte */
 font-weight:bold;
 color:#333;
 }
 
 /* GRID CORRIGIDO */
 .grid{
-display:grid;
+:grid;
 grid-template-columns:repeat(2,1fr);
 gap:10px;
 max-width:1200px;
@@ -81,7 +81,7 @@ border-radius:6px;
 
 /* QUANTIDADE */
 .qtd-box{
-display:flex;
+:flex;
 align-items:center;
 gap:6px;
 margin-top:8px;
@@ -108,7 +108,7 @@ cursor:pointer;
 
 /* BOTÕES */
 .topo-botoes{
-display:flex;
+:flex;
 gap:8px;
 justify-content:center;
 margin-bottom:10px;
@@ -138,7 +138,7 @@ box-shadow:0 2px 4px rgba(0,0,0,0.2);
 }
 
 .item-carrinho{
-display:flex;
+:flex;
 justify-content:space-between;
 margin-bottom:10px;
 font-size:13px;
@@ -152,7 +152,7 @@ font-size:12px;
 
 /* MODAL */
 .modal{
-display:none;
+:none;
 position:fixed;
 top:0;
 left:0;
@@ -185,8 +185,8 @@ cursor:pointer;
 <body>
 
 <div class="topo">
-<img src="../logo.png">
-<div class="titulo">Catálogo de Produtos</div>
+  <img src="../logo.png">
+  <div class="titulo">Catálogo de Produtos</div>
 </div>
 
 <div class="topo-botoes">
@@ -194,7 +194,7 @@ cursor:pointer;
 <button class="btn-verde" onclick="enviarPedido()">Enviar pedido</button>
 </div>
 
-<div id="carrinhoBox" class="carrinho" style="display:none;"></div>
+<div id="carrinhoBox" class="carrinho" style=":none;"></div>
 
 <div class="grid" id="grid"></div>
 
@@ -248,7 +248,7 @@ box.innerHTML = html
 
 function toggleCarrinho(){
 let box = document.getElementById("carrinhoBox")
-box.style.display = box.style.display === "none" ? "block" : "none"
+box.style. = box.style. === "none" ? "block" : "none"
 renderCarrinho()
 }
 
@@ -259,11 +259,11 @@ renderCarrinho()
 
 function abrirModal(src){
 document.getElementById("imgModal").src = src
-document.getElementById("modal").style.display = "flex"
+document.getElementById("modal").style. = "flex"
 }
 
 function fecharModal(){
-document.getElementById("modal").style.display = "none"
+document.getElementById("modal").style. = "none"
 }
 
 fetch("produtos.json")
