@@ -5,72 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catálogo de Produtos</title>
 
-<!-- ================= CSS (VISUAL DO SITE) ================= -->
+<!-- ================= CSS ================= -->
 <style>
 
-/* ===== CONFIGURAÇÃO GERAL ===== */
 body{
 font-family:Arial;
 background:#f2f2f2;
-margin:20px; /* 👉 espaço nas bordas da tela */
+margin:20px;
 }
 
-/* ===== TOPO (LOGO + TÍTULO) ===== */
+/* ===== TOPO ===== */
 .topo{
 display:flex;
 flex-direction:column;
-align-items:center; /* 👉 centraliza horizontal */
-margin-bottom:20px; /* 👉 distância do topo para os botões */
+align-items:center;
+margin-bottom:20px;
 }
 
-/* 👉 AJUSTAR TAMANHO DO LOGO E DISTÂNCIA */
 .topo img{
 max-width:180px; /* 👉 tamanho do logo */
-margin-bottom:15px; /* 👉 distância do logo para o texto */
+margin-bottom:15px; /* 👉 distância logo/texto */
 }
 
-/* 👉 AJUSTAR TEXTO "CATÁLOGO DE PRODUTOS" */
 .titulo{
-font-size:30px; /* 👉 TAMANHO DA FONTE */
+font-size:30px; /* 👉 tamanho do título */
 font-weight:bold;
 color:#333;
 text-align:center;
 }
 
-/* ===== GRID DOS PRODUTOS ===== */
+/* ===== GRID ===== */
 .grid{
 display:grid;
-grid-template-columns:repeat(2,1fr); /* 👉 celular: 2 colunas */
+grid-template-columns:repeat(2,1fr);
 gap:10px;
 max-width:1200px;
 margin:auto;
 }
 
-/* Tablet */
 @media(min-width:600px){
-.grid{
-grid-template-columns:repeat(3,1fr);
-}
+.grid{ grid-template-columns:repeat(3,1fr); }
 }
 
-/* PC */
 @media(min-width:900px){
-.grid{
-grid-template-columns:repeat(4,1fr);
-}
+.grid{ grid-template-columns:repeat(4,1fr); }
 }
 
-/* ===== CARD DO PRODUTO ===== */
+/* ===== CARD ===== */
 .card{
 background:white;
 padding:10px;
 border-radius:10px;
 box-shadow:0 2px 4px rgba(0,0,0,0.2);
-text-align:center;
-overflow:hidden;
+
+display:flex;               /* 👉 ESSENCIAL */
+flex-direction:column;      /* 👉 ESSENCIAL */
 }
 
-/* IMAGEM DO PRODUTO */
+/* imagem */
 .card img{
 width:100%;
 height:120px;
@@ -78,14 +70,19 @@ object-fit:contain;
 cursor:pointer;
 }
 
-/* BLOCO DE PREÇO */
+/* preço */
 .preco{
 font-size:13px;
 margin-top:6px;
 text-align:center;
 }
 
-/* SELECT DE COR */
+/* ===== BLOCO INFERIOR FIXO ===== */
+.acoes{
+margin-top:auto; /* 👉 ISSO ALINHA TODOS OS CARDS */
+}
+
+/* select */
 select{
 width:100%;
 margin-top:5px;
@@ -93,9 +90,9 @@ height:32px;
 border-radius:6px;
 }
 
-/* ===== QUANTIDADE + BOTÃO ===== */
+/* quantidade + botão */
 .qtd-box{
-display:flex; /* ⚠️ ESSENCIAL */
+display:flex;
 align-items:center;
 gap:6px;
 margin-top:8px;
@@ -109,7 +106,6 @@ border:1px solid #ccc;
 border-radius:6px;
 }
 
-/* BOTÃO INSERIR */
 .btn-inserir{
 flex:1;
 height:32px;
@@ -120,9 +116,9 @@ border-radius:6px;
 cursor:pointer;
 }
 
-/* ===== BOTÕES DO TOPO ===== */
+/* ===== BOTÕES ===== */
 .topo-botoes{
-display:flex; /* ⚠️ ESSENCIAL */
+display:flex;
 gap:8px;
 justify-content:center;
 margin-bottom:10px;
@@ -152,7 +148,7 @@ box-shadow:0 2px 4px rgba(0,0,0,0.2);
 }
 
 .item-carrinho{
-display:flex; /* ⚠️ ESSENCIAL */
+display:flex;
 justify-content:space-between;
 margin-bottom:10px;
 font-size:13px;
@@ -164,9 +160,9 @@ cursor:pointer;
 font-size:12px;
 }
 
-/* ===== MODAL (IMAGEM GRANDE) ===== */
+/* ===== MODAL ===== */
 .modal{
-display:none; /* ⚠️ ESSENCIAL */
+display:none;
 position:fixed;
 top:0;
 left:0;
@@ -198,40 +194,34 @@ cursor:pointer;
 
 <body>
 
-<!-- ================= HTML (ESTRUTURA VISUAL) ================= -->
+<!-- ================= HTML ================= -->
 
-<!-- TOPO -->
 <div class="topo">
-  <img src="../logo.png"> <!-- 👉 CAMINHO DO LOGO -->
+  <img src="../logo.png">
   <div class="titulo">Catálogo de Produtos</div>
 </div>
 
-<!-- BOTÕES -->
 <div class="topo-botoes">
 <button class="btn-azul" onclick="toggleCarrinho()">Ver carrinho</button>
 <button class="btn-verde" onclick="enviarPedido()">Enviar pedido</button>
 </div>
 
-<!-- CARRINHO -->
 <div id="carrinhoBox" class="carrinho" style="display:none;"></div>
 
-<!-- PRODUTOS -->
 <div class="grid" id="grid"></div>
 
-<!-- MODAL IMAGEM -->
 <div id="modal" class="modal" onclick="fecharModal()">
 <span class="fechar">✕</span>
 <img id="imgModal">
 </div>
 
-<!-- ================= JAVASCRIPT (FUNCIONAMENTO) ================= -->
+<!-- ================= JS ================= -->
 <script>
 
 let carrinho = []
 let produtos = []
 
 function renderCarrinho(){
-
 let box = document.getElementById("carrinhoBox")
 
 if(carrinho.length === 0){
@@ -243,7 +233,6 @@ let totalGeral = 0
 let html = "<strong>Seu pedido:</strong><br><br>"
 
 carrinho.forEach((p,i)=>{
-
 totalGeral += p.total
 
 html += `
@@ -265,7 +254,6 @@ html += `
 `
 
 box.innerHTML = html
-
 }
 
 function toggleCarrinho(){
@@ -293,7 +281,6 @@ fetch("produtos.json")
 .then(data => {
 
 produtos = data
-
 let grid = document.getElementById("grid")
 
 produtos.forEach((p,index) => {
@@ -327,6 +314,8 @@ ${p.nome}
 ${precosHTML}
 </div>
 
+<div class="acoes">
+
 <select id="cor_${index}">
 ${coresHTML}
 </select>
@@ -336,6 +325,8 @@ ${coresHTML}
 <button class="btn-inserir" onclick="adicionar(\`${p.nome}\`, ${index})">
 Inserir
 </button>
+</div>
+
 </div>
 `
 
@@ -383,7 +374,6 @@ total:totalItem
 })
 
 renderCarrinho()
-
 }
 
 function enviarPedido(){
@@ -410,7 +400,6 @@ msg += `Frete a combinar`
 let numero = "5511981804216"
 
 window.open(`https://wa.me/${numero}?text=${msg}`)
-
 }
 
 </script>
