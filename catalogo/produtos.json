@@ -3,6 +3,8 @@
     "codigo": "01020",
     "nome": "Caneta metal detalhe emborrachado",
     "foto": "01020.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta metálica com design quadrangular, acabamento brilhante (exceto a prata) e detalhe emborrachado, carga esferográfica azul 1.0 mm e acionamento por clique.",
     "quantidade_minima": 20,
     "cores": [
       "Preto",
