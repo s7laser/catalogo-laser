@@ -12,7 +12,7 @@
       "Azul"
     ],
     "precos": {
-      "20": 8,
+      "20": 9,
       "50": 6,
       "100": 5
     }
@@ -30,9 +30,9 @@
       "Vinho"
     ],
     "precos": {
-      "20": 8,
-      "50": 6,
-      "100": 5
+      "20": 5,
+      "50": 4,
+      "100": 3
     }
   },
   {
@@ -47,7 +47,7 @@
       "Azul"
     ],
     "precos": {
-      "20": 8,
+      "20": 9,
       "50": 6,
       "100": 5
     }
@@ -91,7 +91,7 @@
     "foto": "12172.jpg",
     "fotos": [],
     "descricao": "Descrição: Caneta de bambu com detalhes plásticos, carga esferográfica azul 1.0 mm e acionamento por clique.",
-    "quantidade_minima": 50,
+    "quantidade_minima": 20,
     "cores": [
       "Preta",
       "Azul",
@@ -101,8 +101,9 @@
       "Prata"
     ],
     "precos": {
-      "50": 6,
-      "100": 5
+      "20": 6,
+      "50": 5,
+      "100": 4
     }
   },
   {
@@ -111,7 +112,7 @@
     "foto": "08102.jpg",
     "fotos": [],
     "descricao": "Descrição: Boa escrita começa com escolhas conscientes. A nossa caneta ecológica touch de bambu, é a opção ideal para dias intensos de anotações. Com detalhes plásticos e ponta touch, é possível utilizá-la em dispositivos eletrônicos sem tocar diretamente na tela, evitando manchas indesejadas. Essa caneta é a combinação perfeita de sustentabilidade e praticidade.",
-    "quantidade_minima": 50,
+    "quantidade_minima": 20,
     "cores": [
       "Rosa",
       "Prata",
@@ -119,8 +120,9 @@
       "Verde"
     ],
     "precos": {
-      "50": 6,
-      "100": 5
+      "20": 6,
+      "50": 5,
+      "100": 4
     }
   },
   {
@@ -137,10 +139,10 @@
       "Vermelho"
     ],
     "precos": {
-      "10": 14,
-      "20": 12,
-      "50": 10,
-      "100": 8
+      "10": 6,
+      "20": 5,
+      "50": 4,
+      "100": 3
     }
   },
   {
@@ -152,11 +154,10 @@
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 17,
-      "5": 15,
-      "10": 13,
-      "25": 11,
-      "50": 10
+      "10": 15,
+      "20": 13,
+      "50": 11,
+      "100": 10
     }
   },
   {
@@ -168,11 +169,10 @@
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 16,
-      "5": 14,
-      "10": 12,
-      "25": 10,
-      "50": 9
+      "10": 15,
+      "20": 13,
+      "50": 11,
+      "100": 10
     }
   },
   {
@@ -181,14 +181,13 @@
     "foto": "18902.jpg",
     "fotos": [],
     "descricao": "Descrição: Feito em madeira com um delicado detalhe em couro sintético, este chaveiro é a escolha perfeita para quem busca organizar suas chaves com um toque rústico e de modernidade ao mesmo tempo. Durável e prático, acompanha o cliente em todas as ocasiões.",
-    "quantidade_minima": 20,
+    "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 16,
-      "5": 14,
-      "10": 12,
-      "25": 10,
-      "50": 9
+      "10": 7,
+      "20": 6,
+      "50": 5,
+      "100": 4
     }
   },
   {
@@ -200,11 +199,10 @@
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 14,
-      "5": 12,
       "10": 10,
-      "25": 9,
-      "50": 8
+      "20": 9,
+      "50": 7,
+      "100": 6
     }
   },
   {
@@ -216,11 +214,10 @@
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 14,
-      "5": 12,
       "10": 10,
-      "25": 9,
-      "50": 8
+      "20": 9,
+      "50": 7,
+      "100": 6
     }
   },
   {
@@ -232,11 +229,10 @@
     "quantidade_minima": 10,
     "cores": [],
     "precos": {
-      "1": 18,
-      "5": 16,
-      "10": 14,
-      "25": 12,
-      "50": 11
+      "10": 10,
+      "20": 9,
+      "50": 7,
+      "100": 6
     }
   },
   {
@@ -245,14 +241,14 @@
     "foto": "05134.jpg",
     "fotos": [],
     "descricao": "Descrição: Caderno ecológica com caneta. Capa de bambu. Possui aproximadamente 50 folhas brancas pautadas. Acompanha uma caneta de bambu com detalhes em metal.",
-    "quantidade_minima": 10,
+    "quantidade_minima": 1,
     "cores": [],
     "precos": {
-      "1": 20,
-      "5": 18,
-      "10": 16,
-      "25": 14,
-      "50": 12
+      "1": 30,
+      "10": 25,
+      "20": 23,
+      "50": 20,
+      "100": 18
     }
   },
   {
@@ -267,9 +263,11 @@
       "Azul"
     ],
     "precos": {
-      "1": 70,
+      "1": 65,
       "10": 55,
-      "50": 35
+      "20": 50,
+      "50": 35,
+      "100": 30
     }
   },
   {
@@ -286,7 +284,9 @@
     "precos": {
       "1": 80,
       "10": 65,
-      "50": 45
+      "20": 60,
+      "50": 45,
+      "100": 40
     }
   },
   {
@@ -303,7 +303,23 @@
     "precos": {
       "1": 65,
       "10": 55,
-      "50": 35
+      "20": 50,
+      "50": 35,
+      "100": 30
+    }
+  },
+  {
+    "codigo": "01090",
+    "nome": "Caneta bambu detalhe prata",
+    "foto": "01090.jpg",
+    "fotos": [],
+    "descricao": "Descrição: Caneta de bambu com clipe metálico, carga esferográfica azul 1.0 mm e acionamento por clique.",
+    "quantidade_minima": 20,
+    "cores": [],
+    "precos": {
+      "20": 6,
+      "50": 5,
+      "100": 4
     }
   }
 ]
