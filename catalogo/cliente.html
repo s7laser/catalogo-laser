@@ -29,6 +29,7 @@ margin-bottom:10px;
 .titulo{
 font-size:28px;
 font-weight:bold;
+color:#333;
 }
 
 /* BOTÕES TOPO */
@@ -81,6 +82,7 @@ flex-direction:column;
 width:100%;
 height:120px;
 object-fit:contain;
+margin-bottom:6px;
 }
 
 /* OPÇÕES */
@@ -92,6 +94,11 @@ margin-top:6px;
 padding:4px;
 border-radius:6px;
 cursor:pointer;
+transition:0.2s;
+}
+
+.opcao-qtd input{
+accent-color:#007bff;
 }
 
 .opcao-qtd.ativo{
@@ -99,16 +106,18 @@ background:#e7f1ff;
 border:1px solid #007bff;
 }
 
-/* AÇÕES */
+/* BLOCO INFERIOR */
 .acoes{
 margin-top:auto;
 }
 
+/* INPUTS */
 select{
 width:100%;
 margin-top:10px;
 height:34px;
 border-radius:6px;
+border:1px solid #ccc;
 }
 
 .btn-inserir{
@@ -119,6 +128,7 @@ background:#007bff;
 color:white;
 border:none;
 border-radius:6px;
+cursor:pointer;
 }
 
 /* CARRINHO */
@@ -129,11 +139,18 @@ padding:10px;
 margin:10px auto;
 max-width:600px;
 border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
 
 .item{
+margin-bottom:10px;
 font-size:13px;
-margin-bottom:8px;
+}
+
+.remover{
+color:red;
+cursor:pointer;
+font-size:12px;
 }
 
 </style>
@@ -171,6 +188,7 @@ let precos = {}
 for(let i=1;i<=5;i++){
 let qtd = parseInt(p["qtd_"+i])
 let preco = parseFloat(p["preco_"+i])
+
 if(!isNaN(qtd) && !isNaN(preco)){
 precos[qtd]=preco
 }
@@ -203,6 +221,8 @@ let opcoes = Object.keys(p.precos)
 .filter(q=>q>=p.min)
 .sort((a,b)=>a-b)
 
+if(opcoes.length===0) return
+
 let opHTML = opcoes.map((q,i)=>`
 <label class="opcao-qtd ${i===0?'ativo':''}">
 <input type="radio" name="qtd_${index}" value="${q}" ${i===0?'checked':''}>
@@ -211,7 +231,11 @@ ${q} un. - R$ ${p.precos[q].toFixed(2).replace('.',',')}
 `).join("")
 
 let coresHTML = '<option value="">Cor</option>'
+if(p.cores.length){
 p.cores.forEach(c=> coresHTML+=`<option>${c}</option>`)
+}else{
+coresHTML = '<option value="Único">Cor única</option>'
+}
 
 let card = document.createElement("div")
 card.className="card"
@@ -234,6 +258,7 @@ ${coresHTML}
 
 grid.appendChild(card)
 
+/* destaque seleção */
 let radios = card.querySelectorAll(`input[name="qtd_${index}"]`)
 radios.forEach(r=>{
 r.addEventListener("change", ()=>{
@@ -246,6 +271,7 @@ r.parentElement.classList.add("ativo")
 
 }
 
+/* adicionar item */
 function adicionar(index){
 
 let radio = document.querySelector(`input[name="qtd_${index}"]:checked`)
@@ -273,6 +299,7 @@ total
 renderCarrinho()
 }
 
+/* carrinho */
 function renderCarrinho(){
 
 let box = document.getElementById("carrinho")
@@ -285,9 +312,18 @@ return
 let total=0
 let html=""
 
-carrinho.forEach(p=>{
+carrinho.forEach((p,i)=>{
 total+=p.total
-html+=`${p.codigo} - ${p.nome}<br>${p.qtd} un | ${p.cor}<br>R$ ${p.total.toFixed(2)}<hr>`
+
+html+=`
+<div class="item">
+${p.codigo} - ${p.nome}<br>
+${p.qtd} un | ${p.cor}<br>
+R$ ${p.total.toFixed(2)}<br>
+<span class="remover" onclick="removerItem(${i})">Remover</span>
+<hr>
+</div>
+`
 })
 
 html+=`<b>Total: R$ ${total.toFixed(2)}</b>`
@@ -295,12 +331,20 @@ html+=`<b>Total: R$ ${total.toFixed(2)}</b>`
 box.innerHTML=html
 }
 
+/* remover item */
+function removerItem(i){
+carrinho.splice(i,1)
+renderCarrinho()
+}
+
+/* toggle carrinho */
 function toggleCarrinho(){
 let box=document.getElementById("carrinho")
 box.style.display = box.style.display==="none" ? "block" : "none"
 renderCarrinho()
 }
 
+/* whatsapp */
 function enviarPedido(){
 
 if(carrinho.length===0){
@@ -308,7 +352,7 @@ alert("Carrinho vazio")
 return
 }
 
-let msg="Pedido:%0A%0A"
+let msg="Olá, gostaria de fazer um pedido:%0A%0A"
 let total=0
 
 carrinho.forEach(p=>{
