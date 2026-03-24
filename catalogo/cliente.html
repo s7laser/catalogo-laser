@@ -255,7 +255,7 @@ z-index:1000;
 <script>
 
 let carrinho = []
-let produtos = []
+let  = []
 let fotosAtual = []
 let fotoIndex = 0
 
@@ -324,7 +324,7 @@ renderCarrinho()
 
 function abrirModalProduto(index){
 
-let p = produtos[index]
+let p = [index]
 
 fotosAtual = p.fotos && p.fotos.length ? p.fotos : [p.foto]
 fotoIndex = 0
@@ -360,13 +360,52 @@ fecharModal()
 }
 })
 
-/* ===== CARREGAR PRODUTOS ===== */
+/* ===== CARREGAR  ===== */
 
 fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CATALOGO")
 .then(res => res.json())
 .then(data => {
 
-produtos = data
+produtos = data.map(p => {
+
+let precos = {}
+
+// lê até 5 faixas
+for(let i = 1; i <= 5; i++){
+
+let qtd = parseInt(p["qtd_" + i])
+let preco = parseFloat(p["preco_" + i])
+
+if(qtd && preco){
+precos[qtd] = preco
+}
+
+}
+
+// cores
+let cores = []
+if(p.cores){
+cores = p.cores.split(",").map(c=>c.trim())
+}
+
+let codigo = p.codigo
+
+return {
+codigo: codigo,
+nome: p.nome,
+descricao: p.descricao,
+foto: codigo + ".jpg",
+fotos: [
+codigo + "_1.jpg",
+codigo + "_2.jpg",
+codigo + "_3.jpg"
+],
+quantidade_minima: parseInt(p.quantidade_minima),
+cores: cores,
+precos: precos
+}
+
+})
 let grid = document.getElementById("grid")
 
 produtos.forEach((p,index) => {
