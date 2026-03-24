@@ -23,14 +23,32 @@ margin-bottom:20px;
 
 .topo img{
 max-width:180px;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .titulo{
-font-size:30px;
+font-size:28px;
 font-weight:bold;
-color:#333;
 }
+
+/* BOTÕES TOPO */
+.topo-botoes{
+display:flex;
+gap:10px;
+margin-bottom:15px;
+justify-content:center;
+}
+
+.btn{
+padding:10px;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+}
+
+.btn-azul{ background:#007bff; }
+.btn-verde{ background:green; }
 
 /* GRID */
 .grid{
@@ -39,7 +57,6 @@ grid-template-columns:repeat(2,1fr);
 gap:16px;
 max-width:1200px;
 margin:auto;
-align-items:stretch;
 }
 
 @media(min-width:600px){
@@ -58,19 +75,12 @@ border-radius:10px;
 box-shadow:0 2px 6px rgba(0,0,0,0.15);
 display:flex;
 flex-direction:column;
-height:100%;
 }
 
 .card img{
 width:100%;
 height:120px;
 object-fit:contain;
-margin-bottom:6px;
-}
-
-.preco{
-font-size:13px;
-margin-top:6px;
 }
 
 /* OPÇÕES */
@@ -78,46 +88,52 @@ margin-top:6px;
 display:flex;
 align-items:center;
 gap:6px;
-margin-bottom:6px;
-cursor:pointer;
-padding:4px 6px;
+margin-top:6px;
+padding:4px;
 border-radius:6px;
-transition:0.2s;
+cursor:pointer;
 }
 
-.opcao-qtd input{
-accent-color:#007bff;
-}
-
-/* 🔥 DESTAQUE */
 .opcao-qtd.ativo{
 background:#e7f1ff;
 border:1px solid #007bff;
 }
 
-/* BLOCO INFERIOR */
+/* AÇÕES */
 .acoes{
 margin-top:auto;
 }
 
-/* INPUTS */
 select{
 width:100%;
 margin-top:10px;
 height:34px;
 border-radius:6px;
-border:1px solid #ccc;
 }
 
 .btn-inserir{
 width:100%;
+margin-top:8px;
 height:34px;
 background:#007bff;
 color:white;
 border:none;
 border-radius:6px;
-margin-top:8px;
-cursor:pointer;
+}
+
+/* CARRINHO */
+.carrinho{
+display:none;
+background:white;
+padding:10px;
+margin:10px auto;
+max-width:600px;
+border-radius:10px;
+}
+
+.item{
+font-size:13px;
+margin-bottom:8px;
 }
 
 </style>
@@ -130,11 +146,19 @@ cursor:pointer;
 <div class="titulo">Catálogo de Produtos</div>
 </div>
 
+<div class="topo-botoes">
+<button class="btn btn-azul" onclick="toggleCarrinho()">Ver carrinho</button>
+<button class="btn btn-verde" onclick="enviarPedido()">Enviar pedido</button>
+</div>
+
+<div id="carrinho" class="carrinho"></div>
+
 <div class="grid" id="grid"></div>
 
 <script>
 
 let produtos = []
+let carrinho = []
 
 fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CATALOGO")
 .then(res => res.json())
@@ -147,102 +171,87 @@ let precos = {}
 for(let i=1;i<=5;i++){
 let qtd = parseInt(p["qtd_"+i])
 let preco = parseFloat(p["preco_"+i])
-
 if(!isNaN(qtd) && !isNaN(preco)){
 precos[qtd]=preco
 }
 }
 
-let cores = []
-if(p.cores){
-cores = p.cores.split(",").map(c=>c.trim())
-}
-
 return{
-codigo:p.codigo || "",
-nome:p.nome || "",
-foto:(p.codigo || "")+".jpg",
-cores,
-quantidade_minima:parseInt(p.quantidade_minima) || 0,
+codigo:p.codigo,
+nome:p.nome,
+foto:p.codigo+".jpg",
+cores:p.cores ? p.cores.split(",") : [],
+min:parseInt(p.quantidade_minima),
 precos
 }
 
 })
 
+render()
+
+})
+
+function render(){
+
 let grid = document.getElementById("grid")
+grid.innerHTML=""
 
 produtos.forEach((p,index)=>{
 
-if(!p.codigo) return
-
-let opcoesQtd = Object.keys(p.precos)
+let opcoes = Object.keys(p.precos)
 .map(q=>parseInt(q))
-.filter(q=>q>=p.quantidade_minima)
+.filter(q=>q>=p.min)
 .sort((a,b)=>a-b)
 
-if(opcoesQtd.length === 0) return
-
-let opcoesHTML = opcoesQtd.map((q,i)=>`
-<label class="opcao-qtd ${i===0?"ativo":""}">
-<input type="radio" name="qtd_${index}" value="${q}" ${i===0?"checked":""}>
-${q} un. - R$ ${p.precos[q].toFixed(2).replace('.', ',')}
+let opHTML = opcoes.map((q,i)=>`
+<label class="opcao-qtd ${i===0?'ativo':''}">
+<input type="radio" name="qtd_${index}" value="${q}" ${i===0?'checked':''}>
+${q} un. - R$ ${p.precos[q].toFixed(2).replace('.',',')}
 </label>
 `).join("")
 
 let coresHTML = '<option value="">Cor</option>'
-if(p.cores.length){
-p.cores.forEach(c=> coresHTML += `<option>${c}</option>`)
-}else{
-coresHTML = '<option value="Único">Cor única</option>'
-}
+p.cores.forEach(c=> coresHTML+=`<option>${c}</option>`)
 
 let card = document.createElement("div")
 card.className="card"
 
-card.innerHTML = `
+card.innerHTML=`
 <img src="../${p.foto}">
-<b>${p.codigo}</b><br>
-${p.nome}
+<b>${p.codigo}</b>
+<div>${p.nome}</div>
 
-<div class="preco">
-${opcoesHTML}
-</div>
+${opHTML}
 
 <div class="acoes">
-
 <select id="cor_${index}">
 ${coresHTML}
 </select>
 
-<button class="btn-inserir" onclick="adicionar(${index})">
-Inserir
-</button>
-
+<button class="btn-inserir" onclick="adicionar(${index})">Inserir</button>
 </div>
 `
 
 grid.appendChild(card)
 
-/* 🔥 ATIVAR DESTAQUE AO CLICAR */
 let radios = card.querySelectorAll(`input[name="qtd_${index}"]`)
-
-radios.forEach(radio=>{
-radio.addEventListener("change", ()=>{
-card.querySelectorAll(".opcao-qtd").forEach(l=>l.classList.remove("ativo"))
-radio.parentElement.classList.add("ativo")
+radios.forEach(r=>{
+r.addEventListener("change", ()=>{
+card.querySelectorAll(".opcao-qtd").forEach(el=>el.classList.remove("ativo"))
+r.parentElement.classList.add("ativo")
 })
 })
 
 })
 
-})
+}
 
 function adicionar(index){
 
-let selecionado = document.querySelector(`input[name="qtd_${index}"]:checked`)
-if(!selecionado) return
+let radio = document.querySelector(`input[name="qtd_${index}"]:checked`)
+if(!radio) return
 
-let qtd = parseInt(selecionado.value)
+let qtd = parseInt(radio.value)
 let cor = document.getElementById(`cor_${index}`).value
 
 if(!cor){
@@ -251,9 +260,65 @@ return
 }
 
 let p = produtos[index]
+let total = p.precos[qtd] * qtd
 
-alert(`${p.nome}\n${qtd} unidades\nCor: ${cor}`)
+carrinho.push({
+codigo:p.codigo,
+nome:p.nome,
+qtd,
+cor,
+total
+})
 
+renderCarrinho()
+}
+
+function renderCarrinho(){
+
+let box = document.getElementById("carrinho")
+
+if(carrinho.length===0){
+box.innerHTML="Carrinho vazio"
+return
+}
+
+let total=0
+let html=""
+
+carrinho.forEach(p=>{
+total+=p.total
+html+=`${p.codigo} - ${p.nome}<br>${p.qtd} un | ${p.cor}<br>R$ ${p.total.toFixed(2)}<hr>`
+})
+
+html+=`<b>Total: R$ ${total.toFixed(2)}</b>`
+
+box.innerHTML=html
+}
+
+function toggleCarrinho(){
+let box=document.getElementById("carrinho")
+box.style.display = box.style.display==="none" ? "block" : "none"
+renderCarrinho()
+}
+
+function enviarPedido(){
+
+if(carrinho.length===0){
+alert("Carrinho vazio")
+return
+}
+
+let msg="Pedido:%0A%0A"
+let total=0
+
+carrinho.forEach(p=>{
+total+=p.total
+msg+=`${p.codigo} - ${p.nome}%0A${p.qtd} un | ${p.cor}%0AR$ ${p.total.toFixed(2)}%0A%0A`
+})
+
+msg+=`Total: R$ ${total.toFixed(2)}`
+
+window.open(`https://wa.me/5511981804216?text=${msg}`)
 }
 
 </script>
