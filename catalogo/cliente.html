@@ -1,111 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo de Produtos</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f2f2f2;
+margin:20px;
+}
+
+.topo{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-bottom:20px;
+}
+
+.topo img{
+max-width:180px;
+margin-bottom:15px;
+}
+
+.titulo{
+font-size:30px;
+font-weight:bold;
+color:#333;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+max-width:1200px;
+margin:auto;
+}
+
+@media(min-width:600px){
+.grid{ grid-template-columns:repeat(3,1fr); }
+}
+
+@media(min-width:900px){
+.grid{ grid-template-columns:repeat(4,1fr); }
+}
+
+.card{
+background:white;
+padding:10px;
+border-radius:10px;
+box-shadow:0 2px 4px rgba(0,0,0,0.2);
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:120px;
+object-fit:contain;
+cursor:pointer;
+}
+
+.preco{
+font-size:13px;
+margin-top:6px;
+width:100%;
+text-align:left;
+}
+
+.opcao-qtd{
+display:flex;
+align-items:center;
+gap:6px;
+margin-bottom:4px;
+cursor:pointer;
+}
+
+select{
+width:100%;
+margin-top:5px;
+height:32px;
+border-radius:6px;
+}
+
+.btn-inserir{
+width:100%;
+height:32px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin-top:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+  <img src="../logo.png">
+  <div class="titulo">Catálogo de Produtos</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
 <script>
 
-let carrinho = []
 let produtos = []
-let fotosAtual = []
-let fotoIndex = 0
-
-function calcularPreco(produto, qtd){
-
-let faixas = Object.keys(produto.precos)
-.map(f => parseInt(f))
-.sort((a,b) => a - b)
-
-let preco = produto.precos[faixas[0]]
-
-faixas.forEach(faixa => {
-if(qtd >= faixa){
-preco = Number(produto.precos[faixa])
-}
-})
-
-return preco
-}
-
-/* ===== CARRINHO ===== */
-
-function renderCarrinho(){
-let box = document.getElementById("carrinhoBox")
-
-if(carrinho.length === 0){
-box.innerHTML = "Carrinho vazio"
-return
-}
-
-let totalGeral = 0
-let html = "<strong>Seu pedido:</strong><br><br>"
-
-carrinho.forEach((p,i)=>{
-totalGeral += p.total
-
-html += `
-<div class="item-carrinho">
-<div>
-${p.codigo} - ${p.nome}<br>
-${p.quantidade} un. | ${p.cor}<br>
-R$ ${p.total.toFixed(2).replace('.', ',')}
-</div>
-<span class="remover" onclick="removerItem(${i})">Remover</span>
-</div>
-`
-})
-
-html += `<hr><strong>Total: R$ ${totalGeral.toFixed(2).replace('.', ',')}</strong>`
-box.innerHTML = html
-}
-
-function toggleCarrinho(){
-let box = document.getElementById("carrinhoBox")
-box.style.display = box.style.display === "none" ? "block" : "none"
-renderCarrinho()
-}
-
-function removerItem(i){
-carrinho.splice(i,1)
-renderCarrinho()
-}
-
-/* ===== MODAL ===== */
-
-function abrirModalProduto(index){
-
-let p = produtos[index]
-
-fotosAtual = p.fotos && p.fotos.length ? p.fotos : [p.foto]
-fotoIndex = 0
-
-mostrarFoto()
-
-document.getElementById("descModal").innerText = p.descricao || ""
-document.getElementById("modal").style.display = "block"
-}
-
-function mostrarFoto(){
-document.getElementById("imgModal").src = "../" + fotosAtual[fotoIndex]
-}
-
-function proxima(){
-fotoIndex = (fotoIndex + 1) % fotosAtual.length
-mostrarFoto()
-}
-
-function anterior(){
-fotoIndex = (fotoIndex - 1 + fotosAtual.length) % fotosAtual.length
-mostrarFoto()
-}
-
-function fecharModal(e){
-if(e) e.stopPropagation()
-document.getElementById("modal").style.display = "none"
-}
-
-document.addEventListener("keydown", function(e){
-if(e.key === "Escape"){
-fecharModal()
-}
-})
-
-/* ===== CARREGAR ===== */
 
 fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CATALOGO")
 .then(res => res.json())
@@ -116,36 +124,21 @@ produtos = data.map(p => {
 let precos = {}
 
 for(let i = 1; i <= 5; i++){
-
 let qtd = parseInt(p["qtd_" + i])
 let preco = parseFloat(p["preco_" + i])
-
 if(qtd && preco){
 precos[qtd] = preco
 }
-
 }
-
-let cores = []
-if(p.cores){
-cores = p.cores.split(",").map(c=>c.trim())
-}
-
-let codigo = p.codigo
 
 return {
-codigo: codigo,
+codigo: p.codigo,
 nome: p.nome,
 descricao: p.descricao,
-foto: codigo + ".jpg",
-fotos: [
-codigo + "_1.jpg",
-codigo + "_2.jpg",
-codigo + "_3.jpg"
-],
+foto: p.codigo + ".jpg",
 quantidade_minima: parseInt(p.quantidade_minima),
-cores: cores,
-precos: precos
+cores: p.cores ? p.cores.split(",") : [],
+precos
 }
 
 })
@@ -154,60 +147,41 @@ let grid = document.getElementById("grid")
 
 produtos.forEach((p,index) => {
 
-let card = document.createElement("div")
-card.className = "card"
-
-let coresHTML = '<option value="">Cor</option>'
-
-if(p.cores.length){
-p.cores.forEach(c=>{
-coresHTML += `<option>${c}</option>`
-})
-} else {
-coresHTML = '<option value="Único">Cor única</option>'
-}
-
-/* 🔥 FILTRO DE QUANTIDADES */
 let opcoesQtd = Object.keys(p.precos)
 .map(q => parseInt(q))
 .filter(q => q >= p.quantidade_minima)
 .sort((a,b)=>a-b)
 
-/* 🔥 EXIBIÇÃO DE PREÇOS */
-let precosHTML = ""
-opcoesQtd.forEach(q=>{
-precosHTML += `${q}: R$ ${p.precos[q].toFixed(2).replace('.', ',')}<br>`
-})
+let opcoesHTML = opcoesQtd.map((q,i)=>`
+<label class="opcao-qtd">
+<input type="radio" name="qtd_${index}" value="${q}" ${i===0?"checked":""}>
+${q} un. - R$ ${p.precos[q].toFixed(2).replace('.', ',')}
+</label>
+`).join("")
 
-/* 🔥 SELECT DE QUANTIDADE */
-let qtdHTML = opcoesQtd.map(q=>`<option value="${q}">${q} un.</option>`).join("")
+let coresHTML = '<option value="">Cor</option>'
+p.cores.forEach(c => coresHTML += `<option>${c}</option>`)
+
+let card = document.createElement("div")
+card.className = "card"
 
 card.innerHTML = `
-<img src="../${p.foto}" onclick="abrirModalProduto(${index})">
+<img src="../${p.foto}">
 <b>${p.codigo}</b><br>
 ${p.nome}
 
 <div class="preco">
 <strong>Ped. min.:</strong> ${p.quantidade_minima} un.<br><br>
-${precosHTML}
+${opcoesHTML}
 </div>
-
-<div class="acoes">
 
 <select id="cor_${index}">
 ${coresHTML}
 </select>
 
-<div class="qtd-box">
-<select id="qtd_${index}">
-${qtdHTML}
-</select>
 <button class="btn-inserir" onclick="adicionar(${index})">
 Inserir
 </button>
-</div>
-
-</div>
 `
 
 grid.appendChild(card)
@@ -216,11 +190,10 @@ grid.appendChild(card)
 
 })
 
-/* ===== ADICIONAR ===== */
-
 function adicionar(index){
 
-let qtd = parseInt(document.getElementById(`qtd_${index}`).value)
+let selecionado = document.querySelector(`input[name="qtd_${index}"]:checked`)
+let qtd = parseInt(selecionado.value)
 let cor = document.getElementById(`cor_${index}`).value
 
 if(!cor){
@@ -228,45 +201,13 @@ alert("Selecione uma cor")
 return
 }
 
-let produto = produtos[index]
-let precoUnit = calcularPreco(produto, qtd)
+let p = produtos[index]
 
-let totalItem = precoUnit * qtd
+alert(`${p.nome}\n${qtd} unidades\nCor: ${cor}`)
 
-carrinho.push({
-codigo: produto.codigo,
-nome: produto.nome,
-quantidade:qtd,
-cor,
-total:totalItem
-})
-
-renderCarrinho()
-}
-
-/* ===== WHATSAPP ===== */
-
-function enviarPedido(){
-
-if(carrinho.length === 0){
-alert("Adicione produtos ao pedido")
-return
-}
-
-let totalGeral = 0
-let msg = "Olá, gostaria de fazer um pedido:%0A%0A"
-
-carrinho.forEach(p=>{
-totalGeral += p.total
-
-msg += `${p.codigo} - ${p.nome}%0A`
-msg += `${p.quantidade} un. | ${p.cor}%0A`
-msg += `Total: R$ ${p.total.toFixed(2)}%0A%0A`
-})
-
-msg += `Total do pedido: R$ ${totalGeral.toFixed(2)}`
-
-window.open(`https://wa.me/5511981804216?text=${msg}`)
 }
 
 </script>
+
+</body>
+</html>
