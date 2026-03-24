@@ -130,21 +130,29 @@ produtos = data.map(p => {
 
 let precos = {}
 
+// proteção contra dados vazios
 for(let i=1;i<=5;i++){
 let qtd = parseInt(p["qtd_"+i])
 let preco = parseFloat(p["preco_"+i])
-if(qtd && preco){
-precos[qtd]=preco
+
+if(!isNaN(qtd) && !isNaN(preco)){
+precos[qtd] = preco
 }
 }
 
+// proteção cores
+let cores = []
+if(p.cores){
+cores = p.cores.split(",").map(c=>c.trim())
+}
+
 return{
-codigo:p.codigo,
-nome:p.nome,
-foto:p.codigo+".jpg",
-cores:p.cores ? p.cores.split(",") : [],
-quantidade_minima:parseInt(p.quantidade_minima),
-precos
+codigo: p.codigo || "",
+nome: p.nome || "",
+foto: (p.codigo || "") + ".jpg",
+cores: cores,
+quantidade_minima: parseInt(p.quantidade_minima) || 0,
+precos: precos
 }
 
 })
@@ -153,10 +161,16 @@ let grid = document.getElementById("grid")
 
 produtos.forEach((p,index)=>{
 
+// evita produto quebrado
+if(!p.codigo) return
+
 let opcoesQtd = Object.keys(p.precos)
 .map(q=>parseInt(q))
-.filter(q=>q>=p.quantidade_minima)
+.filter(q=>q >= p.quantidade_minima)
 .sort((a,b)=>a-b)
+
+// se não tiver preço válido, ignora
+if(opcoesQtd.length === 0) return
 
 let opcoesHTML = opcoesQtd.map((q,i)=>`
 <label class="opcao-qtd">
@@ -166,7 +180,11 @@ ${q} un. - R$ ${p.precos[q].toFixed(2).replace('.', ',')}
 `).join("")
 
 let coresHTML = '<option value="">Cor</option>'
+if(p.cores.length){
 p.cores.forEach(c=> coresHTML += `<option>${c}</option>`)
+}else{
+coresHTML = '<option value="Único">Cor única</option>'
+}
 
 let card = document.createElement("div")
 card.className="card"
@@ -201,9 +219,11 @@ grid.appendChild(card)
 
 function adicionar(index){
 
-let selecionado = document.querySelector(\`input[name="qtd_\${index}"]:checked\`)
+let selecionado = document.querySelector(`input[name="qtd_${index}"]:checked`)
+if(!selecionado) return
+
 let qtd = parseInt(selecionado.value)
-let cor = document.getElementById(\`cor_\${index}\`).value
+let cor = document.getElementById(`cor_${index}`).value
 
 if(!cor){
 alert("Selecione uma cor")
@@ -212,7 +232,7 @@ return
 
 let p = produtos[index]
 
-alert(\`\${p.nome}\n\${qtd} unidades\nCor: \${cor}\`)
+alert(`${p.nome}\n${qtd} unidades\nCor: ${cor}`)
 
 }
 
