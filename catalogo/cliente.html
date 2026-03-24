@@ -198,7 +198,6 @@ max-height:60vh;
 object-fit:contain;
 }
 
-/* DESCRIÇÃO */
 .modal-desc{
 color:white;
 margin-top:10px;
@@ -206,7 +205,6 @@ font-size:13px;
 line-height:1.4;
 }
 
-/* BOTÃO FECHAR MELHORADO */
 .close{
 position:fixed;
 top:10px;
@@ -224,7 +222,6 @@ cursor:pointer;
 z-index:1000;
 }
 
-/* SETAS */
 .nav{
 position:absolute;
 top:50%;
@@ -273,7 +270,104 @@ border-radius:50%;
 
 <script>
 
-/* --- seu JS permanece igual --- */
+let produtos=[]
+let carrinho=[]
+let fotos=[]
+let fotoIndex=0
+
+fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CATALOGO")
+.then(r=>r.json())
+.then(data=>{
+
+produtos=data.map(p=>{
+
+let precos={}
+for(let i=1;i<=5;i++){
+let q=parseInt(p["qtd_"+i])
+let v=parseFloat(p["preco_"+i])
+
+if(!isNaN(q) && !isNaN(v) && v > 0){
+precos[q]=v
+}
+}
+
+return{
+codigo:p.codigo,
+nome:p.nome,
+descricao:p.descricao || "",
+foto:p.codigo+".jpg",
+fotos:p.fotos ? p.fotos.split(",") : [p.codigo+".jpg"],
+cores:p.cores ? p.cores.split(",") : [],
+min:parseInt(p.quantidade_minima),
+precos
+}
+
+})
+
+render()
+
+})
+
+function render(){
+
+let grid=document.getElementById("grid")
+grid.innerHTML=""
+
+produtos.forEach((p,i)=>{
+
+let opcoes=Object.keys(p.precos)
+.map(n=>parseInt(n))
+.filter(n=>n>=p.min)
+.sort((a,b)=>a-b)
+
+let opHTML=""
+
+if(opcoes.length===0){
+
+opHTML=`<button class="btn-consulta" onclick="consultar(${i})">Consultar preço</button>`
+
+}else{
+
+opHTML=opcoes.map((q,idx)=>`
+<label class="opcao-qtd ${idx==0?'ativo':''}">
+<input type="radio" name="qtd_${i}" value="${q}" ${idx==0?'checked':''}>
+${q} un - R$ ${p.precos[q].toFixed(2)}
+</label>
+`).join("")
+
+}
+
+let cores='<option value="">Cor</option>'
+p.cores.forEach(c=>cores+=`<option>${c}</option>`)
+
+let card=document.createElement("div")
+card.className="card"
+
+card.innerHTML=`
+<img src="../${p.foto}" onclick="abrirModal(${i})">
+<b>${p.codigo}</b>
+<div>${p.nome}</div>
+${opHTML}
+<div class="acoes">
+<select id="cor_${i}">${cores}</select>
+<button class="btn-inserir" onclick="add(${i})">Inserir</button>
+</div>
+`
+
+grid.appendChild(card)
+
+card.querySelectorAll("input").forEach(r=>{
+r.onchange=()=>{
+card.querySelectorAll(".opcao-qtd").forEach(x=>x.classList.remove("ativo"))
+r.parentElement.classList.add("ativo")
+}
+})
+
+})
+
+}
+
+/* resto do JS igual ao seu original */
 
 </script>
 
