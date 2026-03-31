@@ -81,12 +81,37 @@ text-align:center;
 align-items:center;
 }
 
+.card-img{
+position:relative;
+width:100%;
+}
+
 .card img{
 width:100%;
 height:120px;
 object-fit:contain;
 cursor:pointer;
 margin-bottom:6px;
+}
+
+/* ÍCONE PLAY ANIMADO */
+.icone-video{
+position:absolute;
+top:6px;
+right:6px;
+background:rgba(0,0,0,0.6);
+color:white;
+font-size:12px;
+padding:6px 8px;
+border-radius:50%;
+pointer-events:none;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{ transform:scale(1); opacity:1; }
+50%{ transform:scale(1.2); opacity:0.7; }
+100%{ transform:scale(1); opacity:1; }
 }
 
 .card b{
@@ -182,6 +207,7 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.95);
 z-index:999;
+overflow:auto;
 }
 
 .modal-content{
@@ -205,6 +231,19 @@ font-size:13px;
 line-height:1.4;
 }
 
+/* BOTÃO VÍDEO */
+.btn-video{
+margin-top:10px;
+padding:10px;
+background:#dc3545;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+/* FECHAR */
 .close{
 position:fixed;
 top:10px;
@@ -222,6 +261,7 @@ cursor:pointer;
 z-index:1000;
 }
 
+/* SETAS */
 .nav{
 position:absolute;
 top:50%;
@@ -264,7 +304,10 @@ border-radius:50%;
 <button class="nav prev" onclick="anterior()">❮</button>
 <img id="modalImg">
 <button class="nav next" onclick="proxima()">❯</button>
+
 <div id="modalDesc" class="modal-desc"></div>
+<div id="videoBtn"></div>
+
 </div>
 </div>
 
@@ -297,6 +340,7 @@ descricao:p.descricao || "",
 foto:p.codigo+".jpg",
 fotos:p.fotos ? p.fotos.split(",") : [p.codigo+".jpg"],
 cores:p.cores ? p.cores.split(",") : [],
+video: p.video || "",
 min:parseInt(p.quantidade_minima),
 precos
 }
@@ -339,10 +383,16 @@ let card=document.createElement("div")
 card.className="card"
 
 card.innerHTML=`
+<div class="card-img">
 <img src="../${p.foto}" onclick="abrirModal(${i})">
+${p.video ? `<div class="icone-video">▶</div>` : ""}
+</div>
+
 <b>${p.codigo}</b>
 <div>${p.nome}</div>
+
 ${opHTML}
+
 <div class="acoes">
 <select id="cor_${i}">${cores}</select>
 <button class="btn-inserir" onclick="add(${i})">Inserir</button>
@@ -362,101 +412,34 @@ r.parentElement.classList.add("ativo")
 
 }
 
-function consultar(i){
-let p=produtos[i]
-let msg=`Olá, gostaria de consultar o produto:%0A${p.codigo} - ${p.nome}`
-window.open(`https://wa.me/5511981804216?text=${msg}`)
-}
-
-function add(i){
-
-let p=produtos[i]
-
-if(Object.keys(p.precos).length===0){
-alert("Produto sob consulta")
-return
-}
-
-let r=document.querySelector(`input[name=qtd_${i}]:checked`)
-let cor=document.getElementById(`cor_${i}`).value
-
-if(!cor){
-alert("Selecione cor")
-return
-}
-
-let qtd=parseInt(r.value)
-let total=p.precos[qtd]*qtd
-
-carrinho.push({...p,qtd,cor,total})
-
-renderCarrinho()
-}
-
-function renderCarrinho(){
-
-let box=document.getElementById("carrinho")
-
-if(!carrinho.length){
-box.innerHTML="Carrinho vazio"
-return
-}
-
-let total=0
-let html=""
-
-carrinho.forEach((p,i)=>{
-total+=p.total
-html+=`
-<div class="item">
-${p.nome}<br>
-${p.qtd} un | ${p.cor}<br>
-R$ ${p.total.toFixed(2)}<br>
-<span class="remover" onclick="remover(${i})">Remover</span>
-<hr>
-</div>`
-})
-
-html+=`<b>Total R$ ${total.toFixed(2)}</b>`
-box.innerHTML=html
-}
-
-function remover(i){
-carrinho.splice(i,1)
-renderCarrinho()
-}
-
-function toggleCarrinho(){
-let b=document.getElementById("carrinho")
-b.style.display=b.style.display=="none"?"block":"none"
-renderCarrinho()
-}
-
-function enviarPedido(){
-
-if(!carrinho.length) return alert("Carrinho vazio")
-
-let msg="Pedido:%0A"
-let total=0
-
-carrinho.forEach(p=>{
-total+=p.total
-msg+=`${p.nome}%0A${p.qtd} un%0A`
-})
-
-msg+=`Total ${total}`
-
-window.open(`https://wa.me/5511981804216?text=${msg}`)
-}
-
 function abrirModal(i){
-fotos=produtos[i].fotos
+
+let p=produtos[i]
+
+fotos=p.fotos
 fotoIndex=0
-document.getElementById("modalDesc").innerText=produtos[i].descricao
+
+document.getElementById("modalDesc").innerText=p.descricao
+
+// BOTÃO VIDEO
+let box=document.getElementById("videoBtn")
+
+if(p.video){
+box.innerHTML=`<button class="btn-video" onclick="abrirVideo('${p.video}')">Ver vídeo</button>`
+}else{
+box.innerHTML=""
+}
+
 mostrar()
+
 document.querySelector(".prev").style.display = fotos.length>1?"block":"none"
 document.querySelector(".next").style.display = fotos.length>1?"block":"none"
+
 document.getElementById("modal").style.display="block"
+}
+
+function abrirVideo(link){
+window.open(link)
 }
 
 function mostrar(){
@@ -476,6 +459,8 @@ function anterior(){
 fotoIndex=(fotoIndex-1+fotos.length)%fotos.length
 mostrar()
 }
+
+/* resto igual */
 
 </script>
 
