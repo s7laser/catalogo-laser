@@ -23,178 +23,55 @@ margin-bottom:20px;
 
 .topo img{
 max-width:160px;
-margin-bottom:8px;
 }
 
 .titulo{
 font-size:22px;
 font-weight:600;
-color:#333;
 }
-
-/* BOTÕES */
-.topo-botoes{
-display:flex;
-gap:10px;
-margin-bottom:15px;
-justify-content:center;
-}
-
-.btn{
-padding:10px;
-border:none;
-border-radius:8px;
-color:white;
-cursor:pointer;
-font-size:14px;
-}
-
-.btn-azul{ background:#007bff; }
-.btn-verde{ background:#28a745; }
 
 /* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:14px;
-max-width:1200px;
-margin:auto;
 }
 
-@media(min-width:600px){
-.grid{ grid-template-columns:repeat(3,1fr); }
-}
-
-@media(min-width:900px){
-.grid{ grid-template-columns:repeat(4,1fr); }
-}
-
-/* CARD */
 .card{
 background:white;
 padding:12px;
 border-radius:12px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
 display:flex;
 flex-direction:column;
 text-align:center;
-align-items:center;
 }
 
 .card-img{
 position:relative;
-width:100%;
 }
 
 .card img{
 width:100%;
 height:120px;
 object-fit:contain;
-cursor:pointer;
-margin-bottom:6px;
 }
 
-/* ÍCONE PLAY */
+/* PLAY */
 .icone-video{
 position:absolute;
 top:6px;
 right:6px;
 background:rgba(0,0,0,0.6);
 color:white;
-font-size:12px;
-padding:6px 8px;
+padding:6px;
 border-radius:50%;
-pointer-events:none;
 animation:pulse 1.5s infinite;
 }
 
 @keyframes pulse{
-0%{ transform:scale(1); opacity:1; }
-50%{ transform:scale(1.2); opacity:0.7; }
-100%{ transform:scale(1); opacity:1; }
-}
-
-.card b{
-font-size:13px;
-color:#666;
-}
-
-.card div{
-font-size:14px;
-margin-bottom:4px;
-}
-
-/* OPÇÕES */
-.opcao-qtd{
-display:flex;
-align-items:center;
-gap:6px;
-margin-top:4px;
-padding:4px;
-border-radius:6px;
-cursor:pointer;
-font-size:11px;
-}
-
-.opcao-qtd.ativo{
-background:#e7f1ff;
-border:1px solid #007bff;
-}
-
-/* AÇÕES */
-.acoes{
-margin-top:auto;
-width:100%;
-}
-
-select{
-width:100%;
-margin-top:8px;
-height:34px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-.btn-inserir{
-width:100%;
-margin-top:6px;
-height:34px;
-background:#007bff;
-color:white;
-border:none;
-border-radius:6px;
-}
-
-/* CONSULTA */
-.btn-consulta{
-width:100%;
-margin-top:8px;
-padding:8px;
-background:#6c757d;
-color:white;
-border:none;
-border-radius:6px;
-}
-
-/* CARRINHO */
-.carrinho{
-display:none;
-background:white;
-padding:12px;
-margin:10px auto;
-max-width:600px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.item{
-margin-bottom:10px;
-font-size:13px;
-}
-
-.remover{
-color:red;
-cursor:pointer;
+0%{transform:scale(1)}
+50%{transform:scale(1.2)}
+100%{transform:scale(1)}
 }
 
 /* MODAL */
@@ -205,73 +82,65 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.95);
+background:#000;
 z-index:999;
 overflow:auto;
 }
 
 .modal-content{
-position:relative;
 max-width:500px;
 margin:auto;
-padding:15px;
+padding:20px;
 text-align:center;
+position:relative;
 }
 
+/* BOTÃO FECHAR CORRIGIDO */
+.close{
+position:absolute;
+top:10px;
+right:10px;
+background:rgba(0,0,0,0.6);
+color:white;
+width:36px;
+height:36px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+z-index:1000;
+}
+
+/* IMAGEM */
 .modal img{
 width:100%;
 max-height:60vh;
 object-fit:contain;
 }
 
+/* TEXTO */
 .modal-desc{
 color:white;
 margin-top:10px;
 font-size:13px;
 }
 
-/* BOTÃO VIDEO */
+/* VIDEO */
 .btn-video{
 margin-top:10px;
 padding:10px;
-background:#dc3545;
+background:#444;
 color:white;
 border:none;
 border-radius:6px;
-cursor:pointer;
 width:100%;
 }
 
-/* FECHAR */
-.close{
-position:fixed;
-top:10px;
-right:10px;
-background:rgba(0,0,0,0.6);
-width:40px;
-height:40px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-color:white;
-cursor:pointer;
+iframe{
+margin-top:10px;
+border-radius:8px;
 }
-
-/* SETAS */
-.nav{
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-background:rgba(0,0,0,0.5);
-color:white;
-border:none;
-padding:8px;
-border-radius:50%;
-}
-
-.prev{ left:5px; }
-.next{ right:5px; }
 
 </style>
 </head>
@@ -283,31 +152,23 @@ border-radius:50%;
 <div class="titulo">Catálogo de Produtos</div>
 </div>
 
-<div class="topo-botoes">
-<button class="btn btn-azul" onclick="toggleCarrinho()">Carrinho</button>
-<button class="btn btn-verde" onclick="enviarPedido()">Enviar</button>
-</div>
-
-<div id="carrinho" class="carrinho"></div>
 <div class="grid" id="grid"></div>
 
 <div id="modal" class="modal">
+<div class="modal-content">
+
 <span class="close" onclick="fecharModal()">✕</span>
 
-<div class="modal-content">
-<button class="nav prev" onclick="anterior()">❮</button>
 <img id="modalImg">
-<button class="nav next" onclick="proxima()">❯</button>
-
 <div id="modalDesc" class="modal-desc"></div>
-<div id="videoBtn"></div>
+<div id="videoBox"></div>
+
 </div>
 </div>
 
 <script>
 
 let produtos=[]
-let carrinho=[]
 let fotos=[]
 let fotoIndex=0
 
@@ -315,30 +176,16 @@ fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CAT
 .then(r=>r.json())
 .then(data=>{
 
-produtos=data.map(p=>{
+produtos=data.map(p=>({
 
-let precos={}
-for(let i=1;i<=5;i++){
-let q=parseInt(p["qtd_"+i])
-let v=parseFloat(p["preco_"+i])
-if(!isNaN(q) && !isNaN(v) && v > 0){
-precos[q]=v
-}
-}
-
-return{
 codigo:p.codigo,
 nome:p.nome,
 descricao:p.descricao || "",
 foto:p.codigo+".jpg",
 fotos:p.fotos ? p.fotos.split(",") : [p.codigo+".jpg"],
-cores:p.cores ? p.cores.split(",") : [],
-video:p.video || "",
-min:parseInt(p.quantidade_minima),
-precos
-}
+video:p.video || ""
 
-})
+}))
 
 render()
 
@@ -347,30 +194,8 @@ render()
 function render(){
 
 let grid=document.getElementById("grid")
-grid.innerHTML=""
 
 produtos.forEach((p,i)=>{
-
-let opcoes=Object.keys(p.precos)
-.map(n=>parseInt(n))
-.filter(n=>n>=p.min)
-.sort((a,b)=>a-b)
-
-let opHTML=""
-
-if(opcoes.length===0){
-opHTML=`<button class="btn-consulta" onclick="consultar(${i})">Consultar preço</button>`
-}else{
-opHTML=opcoes.map((q,idx)=>`
-<label class="opcao-qtd ${idx==0?'ativo':''}">
-<input type="radio" name="qtd_${i}" value="${q}" ${idx==0?'checked':''}>
-${q} un - R$ ${p.precos[q].toFixed(2)}
-</label>
-`).join("")
-}
-
-let cores='<option value="">Cor</option>'
-p.cores.forEach(c=>cores+=`<option>${c}</option>`)
 
 let card=document.createElement("div")
 card.className="card"
@@ -383,13 +208,6 @@ ${p.video ? `<div class="icone-video">▶</div>` : ""}
 
 <b>${p.codigo}</b>
 <div>${p.nome}</div>
-
-${opHTML}
-
-<div class="acoes">
-<select id="cor_${i}">${cores}</select>
-<button class="btn-inserir" onclick="add(${i})">Inserir</button>
-</div>
 `
 
 grid.appendChild(card)
@@ -405,36 +223,39 @@ let p=produtos[i]
 fotos=p.fotos
 fotoIndex=0
 
+document.getElementById("modalImg").src="../"+fotos[0]
 document.getElementById("modalDesc").innerText=p.descricao
 
-let box=document.getElementById("videoBtn")
+let videoBox=document.getElementById("videoBox")
 
 if(p.video){
-box.innerHTML=`<button class="btn-video" onclick="abrirVideo('${p.video}')">Ver vídeo</button>`
+videoBox.innerHTML=`
+<button class="btn-video" onclick="abrirVideo('${p.video}')">
+Ver vídeo
+</button>
+`
 }else{
-box.innerHTML=""
+videoBox.innerHTML=""
 }
-
-mostrar()
 
 document.getElementById("modal").style.display="block"
 }
 
-/* ✅ CORREÇÃO DO VÍDEO */
+/* 🔥 CORREÇÃO COMPLETA YOUTUBE */
 function abrirVideo(link){
 
 let id=""
 
-if(link.includes("watch?v=")){
-id = link.split("watch?v=")[1]
-}else if(link.includes("youtu.be/")){
-id = link.split("youtu.be/")[1]
+/* pega ID de qualquer formato */
+let match = link.match(/(youtu\.be\/|v=|embed\/|shorts\/)([^&\n?#]+)/)
+
+if(match && match[2]){
+id = match[2]
 }
 
-document.getElementById("videoBtn").innerHTML = `
+document.getElementById("videoBox").innerHTML=`
 <iframe width="100%" height="220"
 src="https://www.youtube.com/embed/${id}"
-frameborder="0"
 allowfullscreen>
 </iframe>
 
@@ -443,25 +264,11 @@ allowfullscreen>
 }
 
 function fecharVideo(){
-document.getElementById("videoBtn").innerHTML=""
-}
-
-function mostrar(){
-document.getElementById("modalImg").src="../"+fotos[fotoIndex]
+document.getElementById("videoBox").innerHTML=""
 }
 
 function fecharModal(){
 document.getElementById("modal").style.display="none"
-}
-
-function proxima(){
-fotoIndex=(fotoIndex+1)%fotos.length
-mostrar()
-}
-
-function anterior(){
-fotoIndex=(fotoIndex-1+fotos.length)%fotos.length
-mostrar()
 }
 
 </script>
