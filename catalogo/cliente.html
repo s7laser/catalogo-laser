@@ -325,7 +325,9 @@ fetch("https://opensheet.elk.sh/1ujUO0slYAkmxuxOLEOcAYVl1w9WNkIDY9rQpOfhtQtE/CAT
 .then(r=>r.json())
 .then(data=>{
 
-produtos=data.map(p=>{
+produtos=data
+.filter(p => p.ativo !== "NÃO")
+.map(p=>{
 
 let precos={}
 for(let i=1;i<=5;i++){
